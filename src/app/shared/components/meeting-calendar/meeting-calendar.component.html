@@ -1,0 +1,19 @@
+<div class="calendar-container">
+  <div class="container-datepicker">
+    <mat-card class="inline-calendar-card">
+      <mat-calendar [(selected)]="selected"
+                    [dateFilter]="onAvailableDates"
+                    (selectedChange)="onDateChanged($event)"
+                    [minDate]="minDate"></mat-calendar>
+
+    </mat-card>
+  </div>
+
+  <div class="calendar-hour">
+    <div *ngFor="let hour of currentListDate; let i=index">
+      <div class="list-hour">
+        <button (click)="onSelectDate(hour!)" [ngClass]="hour?.isActive ? 'button-active' : ''"><span>{{hour?.date|date:"HH:mm"}}</span></button>
+      </div>
+    </div>
+  </div>
+</div>

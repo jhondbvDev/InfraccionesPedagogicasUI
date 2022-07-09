@@ -1,0 +1,107 @@
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgb(187, 180, 180);
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 255, 0.562);
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #1752aa;
+}
+
+
+.inline-calendar-card {
+  max-width: 400px;
+}
+
+.button-active {
+  background-color: rgba(0, 17, 255, 0.658) !important;
+  color: white !important;
+}
+
+.calendar-container {
+  flex: 1 1 50%;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: flex-start;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom:50px;
+  padding: 5%;
+  /*border-radius: 8px;*/
+  box-shadow: 0 5px 5px -3px #0003, 0 8px 10px 1px #00000024, 0 3px 14px 2px #0000001f;
+
+  .container-datepicker {
+    width: 60%;
+  }
+
+  .calendar-hour {
+    width: 40%;
+    flex-direction: column;
+    height: 495px;
+    overflow-y: auto;
+
+    > div {
+      margin-top: 8px;
+      overflow: hidden;
+      white-space: nowrap;
+      -webkit-user-select: none;
+      user-select: none;
+
+      .list-hour {
+        margin: 0px 15px 10px 10px;
+
+        button {
+          width: 100%;
+          height: 52px;
+          color: rgb(0, 105, 255);
+          border: 1px solid rgba(0, 105, 255, 0.5);
+          position: relative;
+          padding: 13px 10px;
+          font-weight: 700;
+          vertical-align: top;
+          border-radius: 4px;
+          transition: all .3s ease;
+          transition-property: width, transform;
+          background-color: transparent;
+          cursor: pointer;
+        }
+
+        button:hover {
+          border-color: var(--primary-color,rgb(0,105,255));
+          border-width: 2px
+        }
+      }
+    }
+  }
+}
+
+@media(max-width:950px) {
+  .calendar-container {
+    flex-direction: column;
+
+    .container-datepicker {
+      width: 100%;
+    }
+
+    .calendar-hour {
+      max-width: 450px;
+      margin-top: 30px;
+      width: 100%;
+    }
+  }
+}

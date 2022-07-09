@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>Esta seguro que desea agendar esta clase?</h1>
+<mat-dialog-content>
+  <mat-form-field appearance="fill" class="full">
+    <mat-label>Profesor</mat-label>
+    <input matInput disabled value="Jhon Ballesteros" />
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="full">
+    <mat-label>Fecha</mat-label>
+    <input matInput disabled value="20 de Mayo de 2022" />
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="full">
+    <mat-label>Hora</mat-label>
+    <input matInput disabled value="12:30pm" />
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>CONFIRMAR</button>
+  <button mat-raised-button color="secondary" mat-dialog-close>CANCELAR</button>
+</mat-dialog-actions>

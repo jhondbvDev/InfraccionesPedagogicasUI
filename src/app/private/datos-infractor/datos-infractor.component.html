@@ -1,0 +1,42 @@
+<mat-card class="datosInfractorContainer">
+  <mat-card-content>
+    <div class="spacing vertical-5"></div>
+    <h1 class="centered-text">Datos del usuario</h1>
+    <div class="spacing vertical-3"></div>
+    <form>
+      <mat-form-field appearance="fill" class="full">
+        <mat-label>Nombres</mat-label>
+        <input matInput value="Alberto" disabled />
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="full">
+        <mat-label>Apellidos</mat-label>
+        <input matInput value="Torres Medina" disabled />
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="full">
+        <mat-label>Cedula</mat-label>
+        <input matInput value="1045678987" disabled />
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="full">
+        <mat-label>Telefono fijo</mat-label>
+        <input matInput />
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="full">
+        <mat-label>Celular</mat-label>
+        <input matInput />
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="full">
+        <mat-label>Direccion</mat-label>
+        <input matInput />
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="full">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" />
+      </mat-form-field>
+    </form>
+    <div class="buttonGroup">
+      <button mat-raised-button color="primary" class="primaryButton" (click)="confirmData()">CONFIRMAR</button>
+      <button mat-raised-button color="secondary" class="secondaryButton" (click)="cancel()">CANCELAR</button>
+    </div>
+    <div class="spacing vertical-4"></div>
+  </mat-card-content>
+</mat-card>

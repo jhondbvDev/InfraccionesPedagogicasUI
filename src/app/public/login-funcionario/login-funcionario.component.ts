@@ -16,11 +16,11 @@ export class LoginFuncionarioComponent implements OnInit {
   isLoginFailed: boolean = false;
   errorMessage: string = '';
   loginForm =  new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.pattern(this.isValidEmail)]),
+    username: new FormControl('', [Validators.required, Validators.pattern(this.isValidEmail)]),
     password: new FormControl('', [Validators.required, Validators.minLength(5)])
   })
 
-  constructor(private router: Router, private fb: FormBuilder,
+  constructor(private router: Router,
     private storageService: StorageService, private authService: AuthService) { }
 
   ngOnInit() {
@@ -30,20 +30,23 @@ export class LoginFuncionarioComponent implements OnInit {
   }
 
   onLogin(): void {
-    console.log(this.loginForm.value);
-    // this.authService.getAuth(form).subscribe(
-    //   d => {
-    //     this.storageService.saveToken(d.access_token);
-    //     this.authService.setUserInfo();
-    //     this.isLoginFailed = false;
-    //     this.router.navigateByUrl("sm/dashboard");
-    //   },
-    //   err => {
-    //     this.isLoginFailed = true;
-    //     this.errorMessage = "user or password invalid";
-    //   })
+    this.authService.getAuth(this.loginForm?.value as IUser).subscribe(
+      data => {
+        this.storageService.saveToken(data.access_token);
+        this.authService.setUserInfo();
+        this.isLoginFailed = false;
+        let userInfo = this.authService.getCurrentUser();
+        let url = this.getUrlByRol(userInfo.rol);
+        this.router.navigateByUrl(url);
+      },
+      err => {
+        this.isLoginFailed = true;
+        this.errorMessage = "user or password invalid";
+      })
   }
-  authenticate() {
-    
+
+  private getUrlByRol(rol:string):string{
+    return rol.toLowerCase()==="tmb"?"tmb/dashboard":"sm/dashboard";
   }
+
 }

@@ -15,41 +15,29 @@ export class AuthService {
   constructor(private http: HttpClient, private StorageService:StorageService) { }
 
   getAuth(authData: IUser): Observable<any> {
-    console.log('HTTP request auth/login');
-    return this.http.post<IToken>(`${environment.API_URL}/auth/login`, authData)
+    return this.http.post<IToken>(`${environment.API_URL}api/auth/signIn`, authData)
       .pipe(
         catchError(err => this.handleError(err))
       )
 
   }
 
-  getUser(): Observable<any> {
-    console.log('HTTP request auth/me');
-    return this.http.get<IUserInfo>(`${environment.API_URL}/auth/me`)
-      .pipe(
-        catchError(err => this.handleError(err))
-      );
-  }
-
   setUserInfo(): void {
-    this.getUser().subscribe(
-      d => {
-        this.StorageService.saveUser(d);
-      },
-      err => {
-      }
-    );
+    let decodedJWT = this.getClaims();
+    let userInfo= {id:decodedJWT.UserId,
+      name:decodedJWT.name,
+      email:decodedJWT.email,
+    rol:decodedJWT.role}
+    this.StorageService.saveUser(userInfo);
   }
 
   getCurrentUser(): IUserInfo {
-    return this.StorageService.getUser();
+    
+     return this.StorageService.getUser();
   }
 
   isLoggedIn(): boolean {
-    if (this.StorageService.getToken() != null) {
-      return true;
-    }
-    else { return false; }
+    return this.StorageService.getToken()!=null;
   }
 
   logout(): void {
@@ -65,6 +53,27 @@ export class AuthService {
     }
     console.log(errorMessage);
     return throwError(errorMessage);
+  }
+
+  private getClaims():any{
+    let token = this.StorageService.getToken();
+    let decodedJWT = JSON.parse(window.atob(token!.split('.')[1]));
+    let str;
+    const claims = {} as any;
+
+    Object.entries(decodedJWT).forEach(
+      ([key,value])=>{
+        if(key.includes('/')){
+          str = key.substring(key.lastIndexOf('/') + 1, key.length);
+        }
+        else
+        {
+          str=key;
+        }
+        claims[str]=value
+      }
+    )
+    return claims;
   }
 }
 

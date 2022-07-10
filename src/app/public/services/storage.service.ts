@@ -28,4 +28,6 @@ export class StorageService {
   getUser(): any {
     return JSON.parse(localStorage.getItem(USER_KEY) as any);
   }
+
+
 }

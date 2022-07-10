@@ -5,13 +5,16 @@
       <div class="spacing vertical-4"></div>
       <h1 class="centered-text">Bienvenido</h1>
       <div class="spacing vertical-3"></div>
-      <form>
+      <form [formGroup]="loginInfractor">
         <mat-form-field appearance="fill" class="full">
           <mat-label>Cedula</mat-label>
-          <input matInput />
+          <input matInput type="text" formControlName="documento" autocomplete="off" required (change)="onFormChange()" />
         </mat-form-field>
+        <div class="input-error">
+          <mat-error  *ngIf="isLoginFailed">{{errorMessage}}</mat-error>
+        </div>
       </form>
-      <button mat-raised-button color="primary" class="full" (click)="authenticate()">CONSULTAR</button>
+      <button mat-raised-button color="primary" [disabled]="!loginInfractor.valid" type="submit" class="full" (click)="authenticate()">CONSULTAR</button>
       <div class="spacing vertical-3"></div>
     </mat-card-content>
   </mat-card>

@@ -2,15 +2,21 @@
   padding: 15% 60px 0px 60px;
 }
 
-.loginContainer{
-    padding: 40px 80px;
-    height: auto;
-    width: 400px;
-    margin: 0 auto;
+.loginContainer {
+  padding: 40px 80px;
+  height: auto;
+  width: 400px;
+  margin: 0 auto;
 }
 
 .logo {
-    width: 400px;
-    display: block;
-    margin: 0 auto;
+  width: 400px;
+  display: block;
+  margin: 0 auto;
+}
+
+.input-error {
+  height: 25px;
+  text-align: center;
+  margin-bottom: 10px;
 }

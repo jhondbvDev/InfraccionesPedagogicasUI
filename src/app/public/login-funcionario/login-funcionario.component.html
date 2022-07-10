@@ -8,13 +8,11 @@
       <form [formGroup]="loginForm">
         <mat-form-field appearance="fill" class="full">
           <mat-label>Email</mat-label>
-          <input matInput type="email" formControlName="email" />
+          <input matInput type="email" formControlName="username" />
         </mat-form-field>
-      </form>
-      <form>
         <mat-form-field appearance="fill" class="full">
           <mat-label>Contraseña</mat-label>
-          <input matInput type="password" formControlName="password"  autocomplete="off" />
+          <input matInput type="password"  formControlName="password"  autocomplete="off" />
         </mat-form-field>
       </form>
       <button mat-raised-button color="primary" class="full" (click)="onLogin()">INGRESAR</button>

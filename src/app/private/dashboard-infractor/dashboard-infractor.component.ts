@@ -1,15 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { Data, Router, TitleStrategy } from '@angular/router';
+import {  Router } from '@angular/router';
 import { ScheduleConfirmationDialogComponent } from 'src/app/shared/dialogs/schedule-confirmation-dialog/schedule-confirmation-dialog.component';
 import { IDatosInfractor } from 'src/app/_models/datosinfractor.interface';
 import { IInfraccion } from 'src/app/_models/infraccion.interface';
 import { IInfractor } from 'src/app/_models/infractor.interface';
 import { InfraccionService } from '../http/infraccion.service';
 import { DataDatosInfractorService } from '../services/data-datos-infractor.service';
-import { DatePipe } from '@angular/common'
+ 
 import { ISala } from 'src/app/_models/sala.interface';
+import { AsistenciaService } from '../http/asistencia.service';
+import { IAsistencia } from 'src/app/_models/asistencia.interface';
+import { SalaService } from '../http/sala.service';
 
 export interface infraccionGrid{
   date:string;
@@ -28,13 +31,15 @@ export class DashboardInfractorComponent implements OnInit {
   dataSource! :MatTableDataSource<infraccionGrid> ;
   displayedColumns: string[] = ['date', 'concept'];
   selectedSala!:ISala;
+  asistencia:IAsistencia|undefined;
 
   constructor(
     private router: Router,
     private matDialog: MatDialog,
     private infraccionService: InfraccionService,
-    public datePipe:DatePipe,
-    private dataDatosInfractorSvc: DataDatosInfractorService
+    private dataDatosInfractorSvc: DataDatosInfractorService,
+    private asistenciaSvc:AsistenciaService,
+    private salaSvc:SalaService 
   ) { 
 
   }
@@ -48,9 +53,21 @@ export class DashboardInfractorComponent implements OnInit {
     }
     else{
       this.loadInfracciones(this.infractor.id);
+      this.loadAsistencia();
     }
   }
 
+  loadAsistencia():void{
+    this.asistenciaSvc.getAsistenciaByInfractor(this.infractor.id).subscribe({
+      next:(data:IAsistencia)=>{
+        if(data!=undefined && data!=null){
+          this.asistencia=data;
+          this.loadSala();
+        }
+      },
+      error:(err:any)=>{}
+    });
+  }
 
   loadInfracciones(infractorId: string): void {
     this.infraccionService.getInfracciones(infractorId).subscribe({
@@ -65,16 +82,46 @@ export class DashboardInfractorComponent implements OnInit {
     });
   }
 
+  loadSala():void{
+    this.salaSvc.getSalaByIdDeep(this.asistencia?.salaId!).subscribe({
+      next:(data:ISala)=>{
+        this.selectedSala=data;
+      },
+      error:(err:any)=>{}
+    });
+  }
+
   onChangeSelectedSala(event : any){
     this.selectedSala=event;
   }
 
-  schedule() {
-   
+  onSchedule():void{
     let dialogConfig = new MatDialogConfig();
     dialogConfig.width = '600px';
     dialogConfig.disableClose = true;
     dialogConfig.data=this.selectedSala;
-    this.matDialog.open(ScheduleConfirmationDialogComponent, dialogConfig)
+    const dialog = this.matDialog.open(ScheduleConfirmationDialogComponent, dialogConfig);
+    const sub = dialog.componentInstance.onSchedule.subscribe((data)=>{
+      if(data){
+        let newAsistencia:IAsistencia={
+          asistio:false,
+          id:0,
+          infractorId:this.infractor.id,
+          salaId:this.selectedSala.id
+        }
+        this.asistenciaSvc.saveAsistencia(newAsistencia).subscribe({
+          next:(data:IAsistencia)=>{
+            this.asistencia=data;
+            this.loadSala();
+          },
+          error:(err:any)=>{}
+        });
+      }
+    });
+    dialog.afterClosed().subscribe(()=>{
+      sub.unsubscribe();
+    });
   }
+
+
 }

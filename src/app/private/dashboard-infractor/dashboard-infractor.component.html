@@ -6,7 +6,7 @@
       <div class="container-col">
         <mat-form-field appearance="fill" class="full">
           <mat-label>Nombre</mat-label>
-          <input matInput value="{{infractor.nombre}}" disabled />
+          <input matInput value="{{infractor?.nombre}}" disabled />
         </mat-form-field>
         <mat-form-field appearance="fill" class="full">
           <mat-label>Direccion</mat-label>
@@ -16,7 +16,7 @@
       <div class="container-col">
         <mat-form-field appearance="fill" class="full">
           <mat-label>Apellido</mat-label>
-          <input matInput value="{{infractor.apellido}}" disabled />
+          <input matInput value="{{infractor?.apellido}}" disabled />
         </mat-form-field>
         <mat-form-field appearance="fill" class="full">
           <mat-label>Telefono</mat-label>
@@ -60,12 +60,39 @@
   </mat-card-content>
 </mat-card>
 <div class="spacing vertical-2"></div>
-<mat-card>
+<mat-card *ngIf="asistencia!=undefined">
+  <mat-card-title>Detalles curso</mat-card-title>
+  <mat-card-content>
+    <mat-form-field appearance="fill" class="full">
+      <mat-label>Profesor</mat-label>
+      <input matInput disabled value="{{selectedSala?.nombreUsuario}}" />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="full">
+      <mat-label>Fecha</mat-label>
+      <input matInput disabled value="{{selectedSala?.fecha|date:'dd-MM-yyyy'}}" />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="full">
+      <mat-label>Hora</mat-label>
+      <input matInput disabled value="{{selectedSala?.fecha|date:'h:mm a'}}" />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="full">
+      <mat-label>Link curso</mat-label>
+      <input matInput disabled value="{{selectedSala?.link}}" />
+    </mat-form-field>
+
+    
+      <button mat-raised-button color="secondary" class="full"
+      routerLink="/infractor/login">SALIR</button>
+
+  </mat-card-content>
+</mat-card>
+<mat-card *ngIf="asistencia==undefined">
   <mat-card-title>Programar curso</mat-card-title>
-  <mat-card-content  class="containerPadding">
+  <mat-card-content class="containerPadding">
     <!--Calendario-->
     <app-meeting-calendar [default]="false" (selectedSala)="onChangeSelectedSala($event)"></app-meeting-calendar>
-    <button mat-raised-button color="primary" [disabled]="selectedSala==undefined" class="full" (click)="schedule()">PROGRAMAR</button>
+    <button mat-raised-button color="primary" [disabled]="selectedSala==undefined" class="full"
+      (click)="onSchedule()">PROGRAMAR</button>
   </mat-card-content>
 </mat-card>
 <div class="spacing vertical-2"></div>

@@ -16,6 +16,10 @@ export class SalaService {
   }
 
   getSalaById(id:number):Observable<any>{
-    return this.http.get<ISala[]>(`${environment.API_URL}api/sala/${id}`)
+    return this.http.get<ISala>(`${environment.API_URL}api/sala/${id}`)
+  }
+
+  getSalaByIdDeep(id:number):Observable<any>{
+    return this.http.get<ISala>(`${environment.API_URL}api/sala/deep/${id}`)
   }
 }

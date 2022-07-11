@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ISala } from 'src/app/_models/sala.interface';
@@ -12,6 +12,7 @@ import { ISala } from 'src/app/_models/sala.interface';
 })
 export class ScheduleConfirmationDialogComponent implements OnInit {
   confirmData!:ISala;
+  onSchedule= new EventEmitter();
   constructor(
     private dialogRef : MatDialogRef<ScheduleConfirmationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { 
@@ -19,8 +20,10 @@ export class ScheduleConfirmationDialogComponent implements OnInit {
     }
 
   ngOnInit() {
-    console.log('dialog data :');
-    console.log(this.data);
+  }
+
+  onConfirm():void{
+   this.onSchedule.emit(true);
   }
 
   close() {

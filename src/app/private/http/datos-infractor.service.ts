@@ -12,7 +12,7 @@ export class DatosInfractorService {
   constructor(private http: HttpClient) { }
 
   getDatosInfractor(id:string):Observable<any>{
-    return this.http.get<IDatosInfractor>(`${environment.API_URL}api/datosinfractor/getDatosInfractor/${id}`);
+    return this.http.get<IDatosInfractor>(`${environment.API_URL}api/datosinfractor/${id}`);
   }
 
   saveDatosInfractor(datos:IDatosInfractor):Observable<any>{

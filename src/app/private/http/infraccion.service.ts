@@ -12,7 +12,7 @@ export class InfraccionService {
   constructor(private http:HttpClient) { }
 
   getInfracciones(infractorId:string):Observable<any>{
-    return this.http.get<IInfraccion[]>(`${environment.API_URL}api/infracciones/getInfracciones/${infractorId}`)
+    return this.http.get<IInfraccion[]>(`${environment.API_URL}api/infracciones/${infractorId}`)
   }
 
 }

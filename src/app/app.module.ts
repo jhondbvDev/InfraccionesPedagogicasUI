@@ -21,7 +21,10 @@ import { AttendanceCheckingDialogComponent } from './shared/dialogs/attendance-c
 import { RoomCreationDialogComponent } from './shared/dialogs/room-creation-dialog/room-creation-dialog.component';
 import { UserCreationDialogComponent } from './shared/dialogs/user-creation-dialog/user-creation-dialog.component';
 import { MeetingCalendarComponent } from './shared/components/meeting-calendar/meeting-calendar.component';
-
+import { SpinnerModule } from './shared/components/spinner/spinner.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { SpinnerInterceptor, spinnerInterceptorProvider } from './shared/interceptors/spinner.interceptor';
+import { DataDatosInfractorService } from './private/services/data-datos-infractor.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +49,8 @@ import { MeetingCalendarComponent } from './shared/components/meeting-calendar/m
     HttpClientModule,
     MaterialModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SpinnerModule
   ],
   entryComponents: [
     ScheduleConfirmationDialogComponent,
@@ -54,7 +58,7 @@ import { MeetingCalendarComponent } from './shared/components/meeting-calendar/m
     RoomCreationDialogComponent,
     UserCreationDialogComponent
   ],
-  providers: [],
+  providers: [spinnerInterceptorProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

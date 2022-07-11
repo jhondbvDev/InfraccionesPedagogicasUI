@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';
+const INFRACTOR_KEY ='auth-infractor'
 @Injectable({
   providedIn: 'root'
 })
@@ -28,6 +29,8 @@ export class StorageService {
   getUser(): any {
     return JSON.parse(localStorage.getItem(USER_KEY) as any);
   }
+
+  
 
 
 }

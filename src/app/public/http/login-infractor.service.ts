@@ -14,5 +14,5 @@ export class LoginInfractorService {
   getInfractor(id:string):Observable<any>{
     return this.http.get<IInfractor>(`${environment.API_URL}api/infractor/getInfractor/${id}`);
   }
-
-}
+  
+} 

@@ -2,7 +2,7 @@
   <img src="../../../../assets/images/logo.png" alt="Logo Secretaria de Transito Bello" class="logo" />
   <span class="example-spacer"></span>
   <span>Bienvenido, {{userName}}</span>
-  <mat-icon aria-hidden="false" aria-label="Example home icon" class="logoutIcon" (click)="onLogout()" matTooltip="Cerrar sesion">exit_to_app</mat-icon>
+  <mat-icon *ngIf="isInternal" aria-hidden="false" aria-label="Example home icon" class="logoutIcon" (click)="onLogout()" matTooltip="Cerrar sesion">exit_to_app</mat-icon>
 </mat-toolbar>
 
 <div class="container">

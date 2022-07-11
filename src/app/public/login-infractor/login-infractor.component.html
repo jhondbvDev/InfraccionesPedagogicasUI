@@ -8,7 +8,7 @@
       <form [formGroup]="loginInfractor">
         <mat-form-field appearance="fill" class="full">
           <mat-label>Cedula</mat-label>
-          <input matInput type="text" formControlName="documento" autocomplete="off" required (change)="onFormChange()" />
+          <input matInput type="text" formControlName="documento"  required (change)="onFormChange()" />
         </mat-form-field>
         <div class="input-error">
           <mat-error  *ngIf="isLoginFailed">{{errorMessage}}</mat-error>

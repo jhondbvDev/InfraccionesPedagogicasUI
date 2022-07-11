@@ -30,7 +30,7 @@ export class LoginFuncionarioComponent implements OnInit {
   }
 
   onLogin(): void {
-    this.authService.getAuth(this.loginForm?.value as IUser).subscribe(
+    this.authService.getAuth(this.loginForm.value as IUser).subscribe(
       data => {
         this.storageService.saveToken(data.access_token);
         this.authService.setUserInfo();

@@ -12,7 +12,7 @@ import { IUser, IUserInfo } from 'src/app/_models/user.interface';
 })
 export class AuthService {
 
-  constructor(private http: HttpClient, private StorageService:StorageService) { }
+  constructor(private http: HttpClient, private StorageService: StorageService) { }
 
   getAuth(authData: IUser): Observable<any> {
     return this.http.post<IToken>(`${environment.API_URL}api/auth/signIn`, authData)
@@ -24,20 +24,23 @@ export class AuthService {
 
   setUserInfo(): void {
     let decodedJWT = this.getClaims();
-    let userInfo= {id:decodedJWT.UserId,
-      name:decodedJWT.name,
-      email:decodedJWT.email,
-    rol:decodedJWT.role}
+    let userInfo = {
+      id: decodedJWT.UserId,
+      name: decodedJWT.name,
+      email: decodedJWT.email,
+      rol: decodedJWT.role,
+      type:"internal"
+    }
     this.StorageService.saveUser(userInfo);
   }
 
   getCurrentUser(): IUserInfo {
-    
-     return this.StorageService.getUser();
+
+    return this.StorageService.getUser();
   }
 
   isLoggedIn(): boolean {
-    return this.StorageService.getToken()!=null;
+    return this.StorageService.getToken() != null;
   }
 
   logout(): void {
@@ -55,22 +58,21 @@ export class AuthService {
     return throwError(errorMessage);
   }
 
-  private getClaims():any{
+  private getClaims(): any {
     let token = this.StorageService.getToken();
     let decodedJWT = JSON.parse(window.atob(token!.split('.')[1]));
     let str;
     const claims = {} as any;
 
     Object.entries(decodedJWT).forEach(
-      ([key,value])=>{
-        if(key.includes('/')){
+      ([key, value]) => {
+        if (key.includes('/')) {
           str = key.substring(key.lastIndexOf('/') + 1, key.length);
         }
-        else
-        {
-          str=key;
+        else {
+          str = key;
         }
-        claims[str]=value
+        claims[str] = value
       }
     )
     return claims;

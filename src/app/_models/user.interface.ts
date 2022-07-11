@@ -8,4 +8,5 @@ export interface IUserInfo {
   name: string;
   email: string;
   rol:string;
+  type:string;
 }

@@ -9,11 +9,13 @@ import { AuthService } from 'src/app/public/http/auth.service';
 })
 export class SecureMasterComponent implements OnInit {
   userName:string='';
+  isInternal:boolean=false;
   constructor(private router: Router,private authService:AuthService) { }
 
   ngOnInit() {
     let userInfo = this.authService.getCurrentUser();
     this.userName = userInfo.name;
+    this.isInternal = userInfo.type==="internal";
   }
 
   onLogout():void{

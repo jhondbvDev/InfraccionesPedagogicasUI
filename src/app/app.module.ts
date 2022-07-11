@@ -10,7 +10,6 @@ import { DashboardInfractorComponent } from './private/dashboard-infractor/dashb
 import { DatosInfractorComponent } from './private/datos-infractor/datos-infractor.component';
 import { DashboardTmbComponent } from './private/dashboard-tmb/dashboard-tmb.component';
 import { DashboardSmComponent } from './private/dashboard-sm/dashboard-sm.component';
-
 import { MaterialModule } from './material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -25,6 +24,7 @@ import { SpinnerModule } from './shared/components/spinner/spinner.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SpinnerInterceptor, spinnerInterceptorProvider } from './shared/interceptors/spinner.interceptor';
 import { DataDatosInfractorService } from './private/services/data-datos-infractor.service';
+import { DatePipe } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,7 +58,7 @@ import { DataDatosInfractorService } from './private/services/data-datos-infract
     RoomCreationDialogComponent,
     UserCreationDialogComponent
   ],
-  providers: [spinnerInterceptorProvider],
+  providers: [spinnerInterceptorProvider,DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

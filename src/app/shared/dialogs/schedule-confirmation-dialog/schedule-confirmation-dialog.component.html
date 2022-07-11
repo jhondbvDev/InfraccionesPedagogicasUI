@@ -2,15 +2,19 @@
 <mat-dialog-content>
   <mat-form-field appearance="fill" class="full">
     <mat-label>Profesor</mat-label>
-    <input matInput disabled value="Jhon Ballesteros" />
+    <input matInput disabled value="{{confirmData.nombreUsuario}}" />
   </mat-form-field>
   <mat-form-field appearance="fill" class="full">
     <mat-label>Fecha</mat-label>
-    <input matInput disabled value="20 de Mayo de 2022" />
+    <input matInput disabled value="{{confirmData.fecha|date:'dd-MM-yyyy'}}" />
   </mat-form-field>
   <mat-form-field appearance="fill" class="full">
     <mat-label>Hora</mat-label>
-    <input matInput disabled value="12:30pm" />
+    <input matInput disabled value="{{confirmData.fecha|date:'h:mm a'}}" />
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="full">
+    <mat-label>Link curso</mat-label>
+    <input matInput disabled value="{{confirmData.link}}" />
   </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions align="end">

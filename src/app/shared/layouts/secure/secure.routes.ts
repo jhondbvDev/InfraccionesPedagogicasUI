@@ -5,7 +5,7 @@ import { DashboardSmComponent } from 'src/app/private/dashboard-sm/dashboard-sm.
 import { DashboardTmbComponent } from 'src/app/private/dashboard-tmb/dashboard-tmb.component';
 import { DatosInfractorComponent } from 'src/app/private/datos-infractor/datos-infractor.component';
 
-import { AuthGuard } from '../../guards/auth.guard';
+// import { AuthGuard } from '../../guards/auth.guard';
 
 export const SECURE_ROUTES: Routes = [
   { path: 'infractor/actualizacionDeDatos', component: DatosInfractorComponent },

@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ISala } from 'src/app/_models/sala.interface';
+
+
 
 @Component({
   selector: 'app-schedule-confirmation-dialog',
@@ -7,10 +11,16 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./schedule-confirmation-dialog.component.scss']
 })
 export class ScheduleConfirmationDialogComponent implements OnInit {
-
-  constructor(private dialogRef : MatDialogRef<ScheduleConfirmationDialogComponent>) { }
+  confirmData!:ISala;
+  constructor(
+    private dialogRef : MatDialogRef<ScheduleConfirmationDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { 
+      this.confirmData=data;
+    }
 
   ngOnInit() {
+    console.log('dialog data :');
+    console.log(this.data);
   }
 
   close() {

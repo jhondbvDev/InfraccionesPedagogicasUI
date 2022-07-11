@@ -6,31 +6,31 @@
       <div class="container-col">
         <mat-form-field appearance="fill" class="full">
           <mat-label>Nombre</mat-label>
-          <input matInput value="Alberto" disabled />
+          <input matInput value="{{infractor.nombre}}" disabled />
         </mat-form-field>
         <mat-form-field appearance="fill" class="full">
           <mat-label>Direccion</mat-label>
-          <input matInput value="Cra 60 # 39 - 89" disabled />
+          <input matInput value="{{datosInfractor.direccion}}" disabled />
         </mat-form-field>
       </div>
       <div class="container-col">
         <mat-form-field appearance="fill" class="full">
           <mat-label>Apellido</mat-label>
-          <input matInput value="Torres" disabled />
+          <input matInput value="{{infractor.apellido}}" disabled />
         </mat-form-field>
         <mat-form-field appearance="fill" class="full">
           <mat-label>Telefono</mat-label>
-          <input matInput value="3233223" disabled />
+          <input matInput value="{{datosInfractor.telefono}}" disabled />
         </mat-form-field>
       </div>
       <div class="container-col">
         <mat-form-field appearance="fill" class="full">
           <mat-label>Correo</mat-label>
-          <input matInput value="alberto@gmail.com" disabled />
+          <input matInput value="{{datosInfractor.email}}" disabled />
         </mat-form-field>
         <mat-form-field appearance="fill" class="full">
           <mat-label>Celular</mat-label>
-          <input matInput value="3124568907" disabled />
+          <input matInput value="{{datosInfractor.celular}}" disabled />
         </mat-form-field>
       </div>
     </div>
@@ -45,7 +45,7 @@
 
       <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef> Fecha </th>
-        <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.date|date:'dd-MM-yyyy'}} </td>
       </ng-container>
 
       <ng-container matColumnDef="concept">
@@ -64,8 +64,8 @@
   <mat-card-title>Programar curso</mat-card-title>
   <mat-card-content  class="containerPadding">
     <!--Calendario-->
-    <app-meeting-calendar [default]="false"></app-meeting-calendar>
-    <button mat-raised-button color="primary" class="full" (click)="schedule()">PROGRAMAR</button>
+    <app-meeting-calendar [default]="false" (selectedSala)="onChangeSelectedSala($event)"></app-meeting-calendar>
+    <button mat-raised-button color="primary" [disabled]="selectedSala==undefined" class="full" (click)="schedule()">PROGRAMAR</button>
   </mat-card-content>
 </mat-card>
 <div class="spacing vertical-2"></div>

@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { IDatosInfractor } from 'src/app/_models/datosinfractor.interface';
 import { IInfractor } from 'src/app/_models/infractor.interface';
 
-const initInfractor: IInfractor = {
-  apellido: '',
-  id: '',
-  nombre: ''
-}
+// const initInfractor: IInfractor = {
+//   apellido: '',
+//   id: '',
+//   nombre: ''
+// }
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +15,23 @@ const initInfractor: IInfractor = {
 export class DataDatosInfractorService {
   constructor() { }
 
-  private infractor!: IInfractor;
+  private currentInfractor!: IInfractor;
+  private currentDatosInfractor!:IDatosInfractor;
 
-  get getInfractor(): IInfractor {
-    return this.infractor;
+  get infractor(): IInfractor {
+    return this.currentInfractor;
   }
 
   setInfractor(infractor: IInfractor): void {
-    this.infractor = infractor;
+    this.currentInfractor = infractor;
+  }
+
+  get datosInfractor(): IDatosInfractor {
+    return this.currentDatosInfractor;
+  }
+
+  setDatosInfractor(datos: IDatosInfractor): void {
+    this.currentDatosInfractor = datos;
   }
 
   //Observable

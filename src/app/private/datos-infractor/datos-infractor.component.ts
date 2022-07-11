@@ -34,7 +34,7 @@ export class DatosInfractorComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.infractor = this.dataInfractorService.getInfractor;
+    this.infractor = this.dataInfractorService.infractor;
     if (this.infractor === null || this.infractor === undefined) {
       console.log("Internal error ");
       this.cancel();
@@ -77,7 +77,10 @@ export class DatosInfractorComponent implements OnInit {
     if(this.isEditMode)
     {
       this.datosInfractorSvc.updateDatosInfractor(this.formDatosInfractor.value as IDatosInfractor).subscribe({
-        next: () => { this.router.navigateByUrl("infractor/dashboard"); },
+        next: () => { 
+          this.dataInfractorService.setDatosInfractor(this.formDatosInfractor.value as IDatosInfractor)
+          this.router.navigateByUrl("infractor/dashboard");
+         },
         error: (err: any) => {
           console.log(err);
         }
@@ -85,7 +88,10 @@ export class DatosInfractorComponent implements OnInit {
     }
     else{
       this.datosInfractorSvc.saveDatosInfractor(this.formDatosInfractor.value as IDatosInfractor).subscribe({
-        next: () => { this.router.navigateByUrl("infractor/dashboard"); },
+        next: () => { 
+          this.dataInfractorService.setDatosInfractor(this.formDatosInfractor.value as IDatosInfractor)
+          this.router.navigateByUrl("infractor/dashboard"); 
+        },
         error: (err: any) => {
           console.log(err);
         }

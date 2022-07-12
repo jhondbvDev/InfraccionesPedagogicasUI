@@ -14,18 +14,21 @@ export class AuthGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
     let user = this.storageSvc.getUser();
     if (this.storageSvc.getUser()) {
-      if (user.role?.toLowerCase() === route.url[0].path.toLowerCase()) {
+      if (user.rol?.toLowerCase() === route.url[0].path.toLowerCase()) {
         return true;
       }
       else {
-        this.router.navigateByUrl("/infractor/login");
-        return false;
+        return this.goToLogin();
       }
     } else {
-      this.router.navigateByUrl("/infractor/login");
-      return false;
+      return this.goToLogin();
     }
+  }
 
-
+  private goToLogin():boolean{
+    this.router.navigateByUrl("/infractor/login");
+    return false;
   }
 }
+
+

@@ -9,12 +9,13 @@ export class StorageService {
 
   constructor() { }
   clearData(): void {
-    window.localStorage.clear();
+    
+    localStorage.clear();
   }
 
   saveToken(token: string): void {
-    window.localStorage.removeItem(TOKEN_KEY);
-    window.localStorage.setItem(TOKEN_KEY, token);
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.setItem(TOKEN_KEY, token);
   }
 
   getToken(): string | null {
@@ -22,8 +23,8 @@ export class StorageService {
   }
 
   saveUser(user: any): void {
-    window.localStorage.removeItem(USER_KEY);
-    window.localStorage.setItem(USER_KEY, JSON.stringify(user));
+    localStorage.removeItem(USER_KEY);
+    localStorage.setItem(USER_KEY, JSON.stringify(user));
   }
 
   getUser(): any {

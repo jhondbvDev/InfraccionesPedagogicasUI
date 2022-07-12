@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -20,6 +20,14 @@ export class AuthService {
         catchError(err => this.handleError(err))
       )
 
+  }
+
+  getAuthToken(document:string):Observable<any>{
+    const params = new HttpParams().set('document',document);
+    return this.http.post<IToken>(`${environment.API_URL}api/auth/generateToken`, null,{params:params})
+    .pipe(
+      catchError(err => this.handleError(err))
+    )
   }
 
   setUserInfo(): void {
@@ -45,6 +53,11 @@ export class AuthService {
 
   logout(): void {
     this.StorageService.clearData();
+  }
+
+  isPublic():boolean{
+    let decodedJWT=this.getClaims();
+    return decodedJWT.userType.toLowerCase()==='public';
   }
 
 

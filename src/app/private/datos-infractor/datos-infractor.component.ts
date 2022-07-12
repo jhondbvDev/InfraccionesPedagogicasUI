@@ -13,7 +13,7 @@ import { DataDatosInfractorService } from '../services/data-datos-infractor.serv
   styleUrls: ['./datos-infractor.component.scss']
 })
 export class DatosInfractorComponent implements OnInit {
-  // datosInfractor!: IDatosInfractor ;
+
   private isValidEmail = /\S+@\S+\.\S+/;
   private isValidNumber=/^-?(0|[1-9]\d*)?$/;
   private isEditMode:boolean=false;
@@ -38,6 +38,7 @@ export class DatosInfractorComponent implements OnInit {
     if (this.infractor === null || this.infractor === undefined) {
       console.log("Internal error ");
       this.cancel();
+      return;
     }
 
     this.datosInfractorSvc.getDatosInfractor(this.infractor.id).subscribe({
@@ -50,8 +51,6 @@ export class DatosInfractorComponent implements OnInit {
             email:data.email,
             telefono:data.telefono
           });
-
-
         }
         else {
           this.isEditMode=false;
@@ -97,8 +96,6 @@ export class DatosInfractorComponent implements OnInit {
         }
       })
     }
-
-
   }
 
   cancel() {

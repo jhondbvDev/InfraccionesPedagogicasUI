@@ -114,7 +114,9 @@ export class DashboardInfractorComponent implements OnInit {
             this.asistencia=data;
             this.loadSala();
           },
-          error:(err:any)=>{}
+          error:(err:any)=>{
+            //mostrar error 
+          }
         });
       }
     });

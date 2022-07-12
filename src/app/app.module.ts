@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginInfractorComponent } from './public/login-infractor/login-infractor.component';
@@ -25,6 +24,9 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SpinnerInterceptor, spinnerInterceptorProvider } from './shared/interceptors/spinner.interceptor';
 import { DataDatosInfractorService } from './private/services/data-datos-infractor.service';
 import { DatePipe } from '@angular/common';
+import { errorInterceptorProvider } from './shared/interceptors/error.interceptor';
+import { authInterceptorProvider } from './shared/interceptors/auth.interceptor';
+import { NotFound404Component } from './shared/components/not-found404/not-found404.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,6 +43,7 @@ import { DatePipe } from '@angular/common';
     RoomCreationDialogComponent,
     UserCreationDialogComponent,
     MeetingCalendarComponent,
+    NotFound404Component,
   ],
   imports: [
     BrowserModule,
@@ -58,7 +61,7 @@ import { DatePipe } from '@angular/common';
     RoomCreationDialogComponent,
     UserCreationDialogComponent
   ],
-  providers: [spinnerInterceptorProvider,DatePipe],
+  providers: [spinnerInterceptorProvider,errorInterceptorProvider,authInterceptorProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

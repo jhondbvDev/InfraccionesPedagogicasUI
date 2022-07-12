@@ -30,8 +30,8 @@ export class LoginFuncionarioComponent implements OnInit {
   }
 
   onLogin(): void {
-    this.authService.getAuth(this.loginForm.value as IUser).subscribe(
-      data => {
+    this.authService.getAuth(this.loginForm.value as IUser).subscribe({
+      next:(data:any)=>{
         this.storageService.saveToken(data.access_token);
         this.authService.setUserInfo();
         this.isLoginFailed = false;
@@ -39,10 +39,11 @@ export class LoginFuncionarioComponent implements OnInit {
         let url = this.getUrlByRol(userInfo.rol);
         this.router.navigateByUrl(url);
       },
-      err => {
+      error:(err:any)=>{
         this.isLoginFailed = true;
         this.errorMessage = "user or password invalid";
-      })
+      }
+    });
   }
 
   private getUrlByRol(rol:string):string{

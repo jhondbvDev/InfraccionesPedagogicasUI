@@ -7,15 +7,15 @@
     <form [formGroup]="formDatosInfractor">
       <mat-form-field appearance="fill" class="full">
         <mat-label>Nombres</mat-label>
-        <input matInput  disabled value="{{infractor.nombre}}" />
+        <input matInput  disabled value="{{infractor?.nombre}}" />
       </mat-form-field>
       <mat-form-field appearance="fill" class="full">
         <mat-label>Apellidos</mat-label>
-        <input matInput value="{{infractor.apellido}}"  disabled />
+        <input matInput value="{{infractor?.apellido}}"  disabled />
       </mat-form-field>
       <mat-form-field appearance="fill" class="full">
         <mat-label>Cedula</mat-label>
-        <input matInput disabled value="{{infractor.id}}" />
+        <input matInput disabled value="{{infractor?.id}}" />
       </mat-form-field>
       <mat-form-field appearance="fill" class="full">
         <mat-label>Telefono fijo</mat-label>

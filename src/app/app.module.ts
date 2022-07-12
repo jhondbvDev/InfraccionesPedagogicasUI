@@ -29,6 +29,7 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { errorInterceptorProvider } from './shared/interceptors/error.interceptor';
 import { authInterceptorProvider } from './shared/interceptors/auth.interceptor';
 import { NotFound404Component } from './shared/components/not-found404/not-found404.component';
+import { AuthService } from './public/http/auth.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -64,6 +65,7 @@ import { NotFound404Component } from './shared/components/not-found404/not-found
     UserCreationDialogComponent
   ],
   providers: [
+    AuthService,
     spinnerInterceptorProvider,
     errorInterceptorProvider,
     authInterceptorProvider,

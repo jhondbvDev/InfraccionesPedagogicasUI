@@ -48,7 +48,7 @@ export class LoginInfractorComponent implements OnInit {
           this.storageService.saveUser(user);
           this.dataInfractorSvc.setInfractor(data);
           this.isLoginFailed = false;
-          this.router.navigateByUrl("infractor/actualizacionDeDatos");
+          
         },
         error: (err: any) => {
           this.isLoginFailed = true;
@@ -66,7 +66,7 @@ export class LoginInfractorComponent implements OnInit {
        this.authService.getAuthToken(id).subscribe({
       next:(data:IToken)=>{
         this.storageService.saveToken(data.access_token);
-      
+        this.router.navigateByUrl("infractor/actualizacionDeDatos");
       },
       error:(err:any)=>{
         this.router.navigateByUrl("infractor/login");

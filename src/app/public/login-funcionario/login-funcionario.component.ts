@@ -25,7 +25,18 @@ export class LoginFuncionarioComponent implements OnInit {
 
   ngOnInit() {
     if (this.authService.isLoggedIn()) {
-      this.router.navigateByUrl("sm/dashboard");
+      const user= this.authService.getCurrentUser();
+      if(user?.rol?.toLocaleLowerCase()==='tmb')
+      {
+        this.router.navigateByUrl("tmb/dashboard");
+      }
+      else if (user?.rol?.toLocaleLowerCase()==='sm'){
+        this.router.navigateByUrl("sm/dashboard");
+      }
+      else{
+        this.router.navigateByUrl("funcionario/login");
+      }
+      
     }
   }
 

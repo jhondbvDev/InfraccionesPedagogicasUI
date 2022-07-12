@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { StorageService } from 'src/app/public/services/storage.service';
+import { AuthService } from 'src/app/public/http/auth.service';
 import { IDatosInfractor } from 'src/app/_models/datosinfractor.interface';
 import { IInfractor } from 'src/app/_models/infractor.interface';
 import { DatosInfractorService } from '../http/datos-infractor.service';
@@ -28,7 +28,7 @@ export class DatosInfractorComponent implements OnInit {
   constructor(
     private router: Router,
     private datosInfractorSvc: DatosInfractorService,
-    // private storageSvc: StorageService,
+    private authService: AuthService,
     private dataInfractorService: DataDatosInfractorService) {
 
   }
@@ -99,6 +99,7 @@ export class DatosInfractorComponent implements OnInit {
   }
 
   cancel() {
+    this.authService.logout();
     this.router.navigateByUrl("infractor/login");
   }
 }

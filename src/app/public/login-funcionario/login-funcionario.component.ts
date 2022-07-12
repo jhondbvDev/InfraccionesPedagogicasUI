@@ -26,11 +26,11 @@ export class LoginFuncionarioComponent implements OnInit {
   ngOnInit() {
     if (this.authService.isLoggedIn()) {
       const user= this.authService.getCurrentUser();
-      if(user.rol?.toLocaleLowerCase()==='tmb')
+      if(user?.rol?.toLocaleLowerCase()==='tmb')
       {
         this.router.navigateByUrl("tmb/dashboard");
       }
-      else if (user.rol?.toLocaleLowerCase()==='sm'){
+      else if (user?.rol?.toLocaleLowerCase()==='sm'){
         this.router.navigateByUrl("sm/dashboard");
       }
       else{

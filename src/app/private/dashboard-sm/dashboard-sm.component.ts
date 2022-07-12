@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
+import { StorageService } from 'src/app/public/services/storage.service';
 import { AttendanceCheckingDialogComponent } from 'src/app/shared/dialogs/attendance-checking-dialog/attendance-checking-dialog.component';
 import { RoomCreationDialogComponent } from 'src/app/shared/dialogs/room-creation-dialog/room-creation-dialog.component';
+import { ISala } from 'src/app/_models/sala.interface';
+import { SalaService } from '../http/sala.service';
 
-export interface Sala {
-  infNumber: string;
+export interface SalaGrid {
+  id: number;
   date: string;
+  hour: string;
   link: string;
   slots: number;
   teacher: string;
 }
-
-const DATA: Sala[] = [
-  { infNumber: '12234355', date: '22/5/2022', link: 'Link', slots: 30, teacher: 'Mauricio Mercado'},
-  { infNumber: '52667355', date: '22/5/2022', link: 'Link', slots: 25, teacher: 'Orlando Mejia'}
-];
 
 @Component({
   selector: 'app-dashboard-sm',
@@ -23,30 +23,65 @@ const DATA: Sala[] = [
 })
 export class DashboardSmComponent implements OnInit {
 
-  constructor(private matDialog: MatDialog) { }
+  userId : string;
+  salas! : ISala[];
+  dataSource! :  MatTableDataSource<SalaGrid>;
+  displayedColumns: string[] = ['teacher', 'link', 'slots','date', 'hour', 'attendanceAction', 'editAction'];
 
-  ngOnInit() {
+  constructor(private matDialog: MatDialog, private salaService : SalaService, private storageService : StorageService) { 
+    this.userId = this.storageService.getUser().id;
   }
 
-  displayedColumns: string[] = ['infNumber', 'date', 'link', 'slots', 'teacher', 'attendanceAction', 'editAction'];
-  dataSource = DATA;
+  ngOnInit() {
+    this.loadSalas();
+  }
 
-  checkAttendance() {
+  checkAttendance(salaId : number) {
     let dialogConfig = new MatDialogConfig();
     dialogConfig.width = '600px';
-    dialogConfig.disableClose = false;
+    dialogConfig.disableClose = true;
     dialogConfig.data = {
-      canModify: true
+      canModify: true,
+      salaId: salaId
     }
 
     this.matDialog.open(AttendanceCheckingDialogComponent, dialogConfig)
   }
 
+  loadSalas(){
+    this.salaService.getSalasForUser(this.userId).subscribe(
+      data => {
+        this.salas = data;
+        let dataGrid : SalaGrid[] = this.salas.map(function(sala){
+          var fixedDate = new Date(sala.fecha);
+
+          return  {
+            id: sala.id, 
+            date: fixedDate.toLocaleDateString(), 
+            hour: fixedDate.toLocaleTimeString(), 
+            teacher: sala.nombreUsuario, 
+            link: sala.link, 
+            slots: sala.cupo} 
+        });
+        this.dataSource= new MatTableDataSource<SalaGrid>(dataGrid);
+      },
+      errorContext => {
+        console.log(errorContext.error);
+      }
+    )
+  }
+
   addRoom() {
     let dialogConfig = new MatDialogConfig();
     dialogConfig.width = '600px';
-    dialogConfig.disableClose = false;
+    dialogConfig.disableClose = true;
 
-    this.matDialog.open(RoomCreationDialogComponent, dialogConfig)
+    let dialogRef = this.matDialog.open(RoomCreationDialogComponent, dialogConfig)
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.loadSalas();
+      }
+    })
   }
 }

@@ -10,7 +10,7 @@
     <ng-container matColumnDef="attendedClass">
       <th mat-header-cell *matHeaderCellDef> Asistio? </th>
       <td mat-cell *matCellDef="let element">
-        <mat-checkbox [disabled]="!data.canModify" [checked]="element.attendedClass"></mat-checkbox> 
+        <mat-checkbox [disabled]="!data.canModify" [checked]="element.attendedClass" (change)="onAttendanceChange($event, element.id)"></mat-checkbox> 
       </td>
     </ng-container>
 

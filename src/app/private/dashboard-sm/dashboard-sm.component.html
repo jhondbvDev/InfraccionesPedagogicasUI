@@ -8,14 +8,9 @@
     <div class="spacing vertical-5 clearFloat"></div>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 full">
 
-      <ng-container matColumnDef="infNumber">
-        <th mat-header-cell *matHeaderCellDef> Numero Infraccion </th>
-        <td mat-cell *matCellDef="let element"> {{element.infNumber}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef> Fecha </th>
-        <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+      <ng-container matColumnDef="teacher">
+        <th mat-header-cell *matHeaderCellDef> Profesor </th>
+        <td mat-cell *matCellDef="let element"> {{element.teacher}} </td>
       </ng-container>
 
       <ng-container matColumnDef="link">
@@ -28,15 +23,20 @@
         <td mat-cell *matCellDef="let element"> {{element.slots}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="teacher">
-        <th mat-header-cell *matHeaderCellDef> Profesor </th>
-        <td mat-cell *matCellDef="let element"> {{element.teacher}} </td>
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef> Fecha </th>
+        <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="hour">
+        <th mat-header-cell *matHeaderCellDef> Hora </th>
+        <td mat-cell *matCellDef="let element"> {{element.hour}} </td>
       </ng-container>
 
       <ng-container matColumnDef="attendanceAction">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element">
-          <button mat-icon-button aria-label="Control de asistencia" matTooltip="Control de asistencia" (click)="checkAttendance()">
+          <button mat-icon-button aria-label="Control de asistencia" matTooltip="Control de asistencia" (click)="checkAttendance(element.id)">
             <mat-icon>playlist_add_check</mat-icon>
           </button>
         </td>

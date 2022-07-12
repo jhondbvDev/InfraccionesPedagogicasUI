@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { IAsistencia } from 'src/app/_models/asistencia.interface';
+import { IAsistencia, IAsistenciaDeep, IUpdateAsistencia } from 'src/app/_models/asistencia.interface';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -16,10 +16,14 @@ export class AsistenciaService {
   }
 
   getAsistenciaBySala(idSala:number):Observable<any>{
-    return this.http.get<IAsistencia[]>(`${environment.API_URL}api/asistencia/getAsistenciasBySala/${idSala}`)
+    return this.http.get<IAsistenciaDeep[]>(`${environment.API_URL}api/asistencia/getAsistenciasBySala/${idSala}`)
   }
 
   saveAsistencia(asistencia:IAsistencia):Observable<any>{
     return this.http.post(`${environment.API_URL}api/asistencia/`,asistencia);
+  }
+
+  updateAsitencia(asistencia : IUpdateAsistencia):Observable<any>{
+    return this.http.put(`${environment.API_URL}api/asistencia/`,asistencia, { responseType: 'text' });
   }
 }

@@ -10,3 +10,10 @@ export interface IUserInfo {
   rol:string;
   type:string;
 }
+
+export interface INewUserInfo{
+  username: string;
+  email: string;
+  password: string
+  rol: string
+}

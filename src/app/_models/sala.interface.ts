@@ -6,3 +6,10 @@ export interface ISala {
     usuarioId:string;
     nombreUsuario:string;
 }
+
+export interface INewSala{
+    fecha:Date;
+    cupo:number;
+    link:string;
+    usuarioId:string;
+}

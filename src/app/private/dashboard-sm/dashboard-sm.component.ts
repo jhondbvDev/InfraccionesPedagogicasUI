@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { StorageService } from 'src/app/public/services/storage.service';
 import { AttendanceCheckingDialogComponent } from 'src/app/shared/dialogs/attendance-checking-dialog/attendance-checking-dialog.component';
 import { RoomCreationDialogComponent } from 'src/app/shared/dialogs/room-creation-dialog/room-creation-dialog.component';
 import { ISala } from 'src/app/_models/sala.interface';
+import { AsistenciaService } from '../http/asistencia.service';
 import { SalaService } from '../http/sala.service';
 
 export interface SalaGrid {
@@ -28,7 +30,12 @@ export class DashboardSmComponent implements OnInit {
   dataSource! :  MatTableDataSource<SalaGrid>;
   displayedColumns: string[] = ['teacher', 'link', 'slots','date', 'hour', 'attendanceAction', 'editAction'];
 
-  constructor(private matDialog: MatDialog, private salaService : SalaService, private storageService : StorageService) { 
+  constructor(
+    private matDialog: MatDialog, 
+    private snackBar : MatSnackBar,
+    private salaService : SalaService, 
+    private storageService : StorageService,  
+    private asistenciaService : AsistenciaService) { 
     this.userId = this.storageService.getUser().id;
   }
 
@@ -66,7 +73,7 @@ export class DashboardSmComponent implements OnInit {
         this.dataSource= new MatTableDataSource<SalaGrid>(dataGrid);
       },
       errorContext => {
-        console.log(errorContext.error);
+        this.snackBar.open(errorContext.error);
       }
     )
   }
@@ -89,28 +96,38 @@ export class DashboardSmComponent implements OnInit {
   }
 
   editRoom(roomData: SalaGrid) {
-    //Confirmar si la sala tiene gente registrada antes de editar, devolver el mensaje correspondiente si es asi
+    this.asistenciaService.hasRegisteredInfractores(roomData.id).subscribe(
+      data =>{
+        if(data == true){
+          this.snackBar.open("Esta sala no se puede editar ya que contiene infractores registrados");
+        }
+        else{
+          let dialogConfig = new MatDialogConfig();
+          dialogConfig.width = '600px';
+          dialogConfig.disableClose = true;
+          dialogConfig.data = {
+            isCreation : false,
+            room: {
+              id: roomData.id,
+              date: roomData.date,
+              hour : roomData.hour,
+              slots : roomData.slots,
+              link : roomData.link
+            }
+          }
 
-    let dialogConfig = new MatDialogConfig();
-    dialogConfig.width = '600px';
-    dialogConfig.disableClose = true;
-    dialogConfig.data = {
-      isCreation : false,
-      room: {
-        id: roomData.id,
-        date: roomData.date,
-        hour : roomData.hour,
-        slots : roomData.slots,
-        link : roomData.link
+          let dialogRef = this.matDialog.open(RoomCreationDialogComponent, dialogConfig)
+
+          dialogRef.afterClosed().subscribe(result => {
+            if(result){
+              this.loadSalas();
+            }
+          })
+        }
+      },
+      errorContext => {
+        this.snackBar.open(errorContext.error);
       }
-    }
-
-    let dialogRef = this.matDialog.open(RoomCreationDialogComponent, dialogConfig)
-
-    dialogRef.afterClosed().subscribe(result => {
-      if(result){
-        this.loadSalas();
-      }
-    })
+    );
   }
 }

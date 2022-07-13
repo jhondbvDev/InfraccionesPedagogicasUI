@@ -26,4 +26,8 @@ export class AsistenciaService {
   updateAsitencia(asistencia : IUpdateAsistencia):Observable<any>{
     return this.http.put(`${environment.API_URL}api/asistencia/`,asistencia, { responseType: 'text' });
   }
+
+  hasRegisteredInfractores(salaId: number){
+    return this.http.get<boolean>(`${environment.API_URL}api/asistencia/hasRegisteredInfractores/${salaId}`);
+  }
 }

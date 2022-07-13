@@ -10,7 +10,7 @@
       <mat-label>Cupos</mat-label>
       <input matInput type="number" formControlName="cupo" />
     </mat-form-field>
-    <app-meeting-calendar [default]="true" (selectedSala)="onChangeSelectedSala($event)"></app-meeting-calendar>
+    <app-meeting-calendar [default]="true" [inputSala]="selectedSala" (selectedSala)="onChangeSelectedSala($event)"></app-meeting-calendar>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">

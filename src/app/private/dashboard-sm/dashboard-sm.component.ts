@@ -98,9 +98,9 @@ export class DashboardSmComponent implements OnInit {
       isCreation : false,
       room: {
         id: roomData.id,
-        date: roomData.date,
-        hour : roomData.hour,
-        slots : roomData.slots,
+        fecha: new Date(`${roomData.date}, ${roomData.hour}`),
+        // hour : roomData.hour,
+        cupo : roomData.slots,
         link : roomData.link
       }
     }

@@ -1,16 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MAT_INPUT_VALUE_ACCESSOR } from '@angular/material/input';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { SalaService } from 'src/app/private/http/sala.service';
 import { ISala } from 'src/app/_models/sala.interface';
 
-// const DATA: Date[] = [
-//   new Date("2022-07-14 11:20:00"),
-//   new Date("2022-07-13 12:00:00"),
-//   new Date("2022-07-12 13:30:00"),
-//   new Date("2022-07-14 09:45:00"),
-//   new Date("2022-07-13 09:45:00"),
-//   new Date("2022-07-14 014:45:00")
-// ];
 
 const HOURS: number[] = [8, 9, 10, 11, 13, 14, 15, 16, 17, 18]
 
@@ -22,6 +15,7 @@ const HOURS: number[] = [8, 9, 10, 11, 13, 14, 15, 16, 17, 18]
 export class MeetingCalendarComponent implements OnInit {
   @Input() default: boolean = false;
   @Output() selectedSala= new EventEmitter<ISala>;
+  @Input() inputSala:ISala|null=null;
   selected: Date | null;
   minDate: Date;
   dateFilter = (date: Date): boolean => {return true;}
@@ -34,18 +28,21 @@ export class MeetingCalendarComponent implements OnInit {
   constructor(
     private salaService: SalaService
   ) {
-    this.selected = new Date();
+    this.selected = null;
     this.minDate = new Date();
     this.selectedSala.emit(undefined);
     // this.listDates = DATA;
-    this.defaultListSalas = this.generateSalas();
+    this.defaultListSalas = this.generateSalas(new Date());
 
   }
 
   onDateChanged(dateChanged: Date | null): void {
 
     if (this.default) {
-      this.currentListDate = this.defaultListSalas;
+      if(dateChanged===null){
+        dateChanged=new Date();
+      }
+      this.currentListDate = this.generateSalas(dateChanged);
     }
     else {
       this.currentListDate = [];
@@ -65,13 +62,11 @@ export class MeetingCalendarComponent implements OnInit {
     this.selectedSala.emit(d?.sala);
   }
 
-  generateSalas(): { isActive: boolean, sala: ISala }[] {
+  generateSalas(d:Date): { isActive: boolean, sala: ISala }[] {
     const listSalas: { isActive: boolean, sala: ISala }[] = [];
     for (let index = 0; index < HOURS.length; index++) {
       const element = HOURS[index];
-      const date = new Date();
-      date.setHours(element);
-      date.setMinutes(0);
+      const date = new Date(d.getFullYear(),d.getMonth(),d.getDate(),element,d.getMinutes(),0,0 );
       let newSala: ISala = {
         id: 0,
         fecha: date,
@@ -107,6 +102,15 @@ export class MeetingCalendarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if(this.inputSala!==null && this.inputSala!==undefined){
+      //Modo edicion
+      this.onDateChanged(this.inputSala.fecha);
+      const element = 
+      this.currentListDate
+      .find(x=>x?.sala.fecha.toString().slice(16,21)===this.inputSala?.fecha.toString().slice(16,21));
+      this.onSelectDate(element);
+      this.selected=this.inputSala.fecha;
+    }
     if (!this.default) {
       this.loadSalas();
     }

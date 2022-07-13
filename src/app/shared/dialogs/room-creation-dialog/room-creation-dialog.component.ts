@@ -15,7 +15,6 @@ export class RoomCreationDialogComponent implements OnInit {
 
   selectedSala! : ISala;
   public roomCreationForm : FormGroup;
-  editionDate! : Date;
 
   constructor(
     private dialogRef: MatDialogRef<RoomCreationDialogComponent>, 
@@ -33,11 +32,11 @@ export class RoomCreationDialogComponent implements OnInit {
     else{
       this.roomCreationForm =  new FormGroup({
         link: new FormControl(data.room.link, [Validators.required, Validators.minLength(3)]),
-        cupo: new FormControl(data.room.slots, [Validators.required])
+        cupo: new FormControl(data.room.cupo, [Validators.required])
       });
 
-      this.editionDate = new Date(data.room.date + " " + data.room.hour);
     }
+    this.selectedSala=data.room;
   }
 
   ngOnInit() {
@@ -50,6 +49,8 @@ export class RoomCreationDialogComponent implements OnInit {
   onChangeSelectedSala(event : any){
     this.selectedSala=event;
   }
+
+
   
   submitForm(){
     if(this.roomCreationForm.valid){
@@ -79,7 +80,7 @@ export class RoomCreationDialogComponent implements OnInit {
             id : this.data.room.id,
             link : this.roomCreationForm.value.link,
             cupo : this.roomCreationForm.value.cupo,
-            fecha : this.selectedSala.fecha
+            fecha : new Date(this.selectedSala.fecha.toString().slice(0,28))
           }
 
           this.salaService.updateSala(updatedSala).subscribe(

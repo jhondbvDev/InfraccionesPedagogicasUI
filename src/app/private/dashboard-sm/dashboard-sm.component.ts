@@ -75,6 +75,35 @@ export class DashboardSmComponent implements OnInit {
     let dialogConfig = new MatDialogConfig();
     dialogConfig.width = '600px';
     dialogConfig.disableClose = true;
+    dialogConfig.data = {
+      isCreation : true
+    }
+
+    let dialogRef = this.matDialog.open(RoomCreationDialogComponent, dialogConfig)
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.loadSalas();
+      }
+    })
+  }
+
+  editRoom(roomData: SalaGrid) {
+    //Confirmar si la sala tiene gente registrada antes de editar, devolver el mensaje correspondiente si es asi
+
+    let dialogConfig = new MatDialogConfig();
+    dialogConfig.width = '600px';
+    dialogConfig.disableClose = true;
+    dialogConfig.data = {
+      isCreation : false,
+      room: {
+        id: roomData.id,
+        date: roomData.date,
+        hour : roomData.hour,
+        slots : roomData.slots,
+        link : roomData.link
+      }
+    }
 
     let dialogRef = this.matDialog.open(RoomCreationDialogComponent, dialogConfig)
 

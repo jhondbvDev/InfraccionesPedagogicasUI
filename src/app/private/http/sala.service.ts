@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { INewSala, ISala } from 'src/app/_models/sala.interface';
+import { IEditSala, INewSala, ISala } from 'src/app/_models/sala.interface';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -29,5 +29,9 @@ export class SalaService {
 
   createSala(sala : INewSala):Observable<any>{
     return this.http.post(`${environment.API_URL}api/sala`, sala, { responseType: 'text' })
+  }
+
+  updateSala(sala : IEditSala):Observable<any>{
+    return this.http.put(`${environment.API_URL}api/sala`, sala, { responseType: 'text' })
   }
 }

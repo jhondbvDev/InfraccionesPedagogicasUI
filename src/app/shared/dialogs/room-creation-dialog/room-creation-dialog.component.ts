@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SalaService } from 'src/app/private/http/sala.service';
 import { StorageService } from 'src/app/public/services/storage.service';
-import { INewSala, ISala } from 'src/app/_models/sala.interface';
+import { IEditSala, INewSala, ISala } from 'src/app/_models/sala.interface';
 
 @Component({
   selector: 'app-room-creation-dialog',
@@ -15,16 +15,29 @@ export class RoomCreationDialogComponent implements OnInit {
 
   selectedSala! : ISala;
   public roomCreationForm : FormGroup;
+  editionDate! : Date;
 
   constructor(
     private dialogRef: MatDialogRef<RoomCreationDialogComponent>, 
     private snackBar : MatSnackBar, 
     private storageService: StorageService, 
-    private salaService : SalaService) { 
-    this.roomCreationForm =  new FormGroup({
-      link: new FormControl('', [Validators.required, Validators.minLength(3)]),
-      cupo: new FormControl('', [Validators.required])
-    });
+    private salaService : SalaService,
+    @Inject(MAT_DIALOG_DATA) public data: any) { 
+
+    if(data.isCreation){
+      this.roomCreationForm =  new FormGroup({
+        link: new FormControl('', [Validators.required, Validators.minLength(3)]),
+        cupo: new FormControl('', [Validators.required])
+      });
+    }
+    else{
+      this.roomCreationForm =  new FormGroup({
+        link: new FormControl(data.room.link, [Validators.required, Validators.minLength(3)]),
+        cupo: new FormControl(data.room.slots, [Validators.required])
+      });
+
+      this.editionDate = new Date(data.room.date + " " + data.room.hour);
+    }
   }
 
   ngOnInit() {
@@ -41,24 +54,44 @@ export class RoomCreationDialogComponent implements OnInit {
   submitForm(){
     if(this.roomCreationForm.valid){
       if(this.selectedSala){
-        var activeUser = this.storageService.getUser();
+        if(this.data.isCreation){
+          var activeUser = this.storageService.getUser();
       
-        let newSala : INewSala = {
-          link : this.roomCreationForm.value.link,
-          cupo : this.roomCreationForm.value.cupo,
-          fecha : this.selectedSala.fecha,
-          usuarioId : activeUser.id
-        }
-
-        this.salaService.createSala(newSala).subscribe(
-          data =>{
-            this.snackBar.open(data);
-            this.close(true);
-          },
-          errorContext =>{
-            this.snackBar.open(errorContext.error);
+          let newSala : INewSala = {
+            link : this.roomCreationForm.value.link,
+            cupo : this.roomCreationForm.value.cupo,
+            fecha : this.selectedSala.fecha,
+            usuarioId : activeUser.id
           }
-        )
+          
+          this.salaService.createSala(newSala).subscribe(
+            data =>{
+              this.snackBar.open(data);
+              this.close(true);
+            },
+            errorContext =>{
+              this.snackBar.open(errorContext.error);
+            }
+          )
+        }
+        else{
+          let updatedSala : IEditSala = {
+            id : this.data.room.id,
+            link : this.roomCreationForm.value.link,
+            cupo : this.roomCreationForm.value.cupo,
+            fecha : this.selectedSala.fecha
+          }
+
+          this.salaService.updateSala(updatedSala).subscribe(
+            data =>{
+              this.snackBar.open(data);
+              this.close(true);
+            },
+            errorContext =>{
+              this.snackBar.open(errorContext.error);
+            }
+          )
+        }
       }
       else{
         console.log("error calendario")

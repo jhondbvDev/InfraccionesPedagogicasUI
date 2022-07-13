@@ -13,3 +13,10 @@ export interface INewSala{
     link:string;
     usuarioId:string;
 }
+
+export interface IEditSala{
+    id:number;
+    fecha:Date;
+    cupo:number;
+    link:string;
+}

@@ -9,6 +9,7 @@ import { AttendanceCheckingDialogComponent } from 'src/app/shared/dialogs/attend
 import { UserCreationDialogComponent } from 'src/app/shared/dialogs/user-creation-dialog/user-creation-dialog.component';
 import { ISala } from 'src/app/_models/sala.interface';
 import { IUser, IUserInfo } from 'src/app/_models/user.interface';
+import { FileUploadService } from '../http/file-upload.service';
 import { SalaService } from '../http/sala.service';
 import { UsuarioService } from '../http/usuario.service';
 
@@ -49,19 +50,16 @@ export class DashboardTmbComponent implements OnInit {
   displayedColumns2: string[] = ['name', 'email', 'role', 'deleteAction'];
   dataSource! :  MatTableDataSource<SalaGrid>;
   dataSource2! :  MatTableDataSource<UsuarioGrid>;
-  fileUploadForm : FormGroup;
-  selectedFile : any | undefined;
+  selectedFile : File | undefined;
 
   constructor(
     private matDialog: MatDialog, 
     private snackBar : MatSnackBar, 
     private usuarioService : UsuarioService, 
     private salaService : SalaService, 
+    private fileUploadService : FileUploadService,
     private storageService: StorageService) 
     {
-      this.fileUploadForm =  new FormGroup({
-        file: new FormControl('', [Validators.required]),
-      });  
     }
 
   ngOnInit() {
@@ -147,10 +145,26 @@ export class DashboardTmbComponent implements OnInit {
 
   csvInputChange(fileInputEvent: any) {
     this.selectedFile = fileInputEvent.target.files[0];
-    console.log(this.selectedFile);
   }
 
   clearSelectedFile(){
-    this.selectedFile = null;
+    this.selectedFile = undefined;
+  }
+
+  uploadFile(){
+    this.fileUploadService.processInfracciones(this.selectedFile!).subscribe(
+      data => {
+        if(data == true){
+          this.snackBar.open("Archivo cargado con exito");
+          this.clearSelectedFile();
+        }
+        else{
+          this.snackBar.open("Error durante la carga del archivo, intente nuevamente");
+        }
+      },
+      errorContext => {
+        this.snackBar.open(errorContext.error);
+      }
+    )
   }
 }

@@ -57,6 +57,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     flex-wrap: wrap;
     align-content: stretch;
     gap: 30px;
+    &.medium-gap{
+      gap: 15px;
+    }
 }
 
 .container-col {

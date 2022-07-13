@@ -101,6 +101,28 @@
         </mat-card-content>
       </mat-card>
     </mat-tab>
+    <mat-tab label="Infractores">
+      <mat-card>
+        <div class="spacing vertical-3"></div>
+        <mat-card-title>Carga de infractores</mat-card-title>
+        <mat-card-content class="containerPadding">
+          <div class="spacing vertical-3"></div>
+          <form [formGroup]="fileUploadForm">
+            <mat-form-field appearance="fill" class="full">
+              <mat-label>Archivo</mat-label>
+              <input matInput [readonly]="true" formControlName="file" [value]="selectedFile?.name">
+            </mat-form-field>
+          </form>
+          <input #csvInput hidden="true" type="file" (change)="csvInputChange($event)" accept=".xlsx"/>
+          <button mat-raised-button color="primary" (click)="csvInput.click()" *ngIf="!selectedFile">Escoja el archivo a cargar</button>
+          <div class="container-row medium-gap">
+            <button mat-raised-button color="primary" (click)="csvInput.click()" *ngIf="selectedFile">Cargar archivo</button>
+            <button mat-raised-button color="secondary" (click)="csvInput.value = ''; clearSelectedFile()" *ngIf="selectedFile">Limpiar</button>
+          </div>
+          <div class="spacing vertical-3"></div>
+        </mat-card-content>
+      </mat-card>
+    </mat-tab>
   </mat-tab-group>
  </mat-card>
 

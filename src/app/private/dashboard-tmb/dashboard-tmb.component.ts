@@ -1,5 +1,6 @@
 import { IfStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'; 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
@@ -48,13 +49,20 @@ export class DashboardTmbComponent implements OnInit {
   displayedColumns2: string[] = ['name', 'email', 'role', 'deleteAction'];
   dataSource! :  MatTableDataSource<SalaGrid>;
   dataSource2! :  MatTableDataSource<UsuarioGrid>;
+  fileUploadForm : FormGroup;
+  selectedFile : any | undefined;
 
   constructor(
     private matDialog: MatDialog, 
     private snackBar : MatSnackBar, 
     private usuarioService : UsuarioService, 
     private salaService : SalaService, 
-    private storageService: StorageService) { }
+    private storageService: StorageService) 
+    {
+      this.fileUploadForm =  new FormGroup({
+        file: new FormControl('', [Validators.required]),
+      });  
+    }
 
   ngOnInit() {
     this.loadSalas();
@@ -135,5 +143,14 @@ export class DashboardTmbComponent implements OnInit {
         this.snackBar.open(errorContext.error);
       }
     )
+  }
+
+  csvInputChange(fileInputEvent: any) {
+    this.selectedFile = fileInputEvent.target.files[0];
+    console.log(this.selectedFile);
+  }
+
+  clearSelectedFile(){
+    this.selectedFile = null;
   }
 }

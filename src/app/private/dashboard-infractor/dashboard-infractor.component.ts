@@ -13,6 +13,7 @@ import { ISala } from 'src/app/_models/sala.interface';
 import { AsistenciaService } from '../http/asistencia.service';
 import { IAsistencia } from 'src/app/_models/asistencia.interface';
 import { SalaService } from '../http/sala.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export interface infraccionGrid{
   date:string;
@@ -39,7 +40,8 @@ export class DashboardInfractorComponent implements OnInit {
     private infraccionService: InfraccionService,
     private dataDatosInfractorSvc: DataDatosInfractorService,
     private asistenciaSvc:AsistenciaService,
-    private salaSvc:SalaService 
+    private salaSvc:SalaService,
+    private snackBar:MatSnackBar 
   ) { 
 
   }
@@ -115,7 +117,7 @@ export class DashboardInfractorComponent implements OnInit {
             this.loadSala();
           },
           error:(err:any)=>{
-            //mostrar error 
+           this.snackBar.open('Ocurrio un error programando su curso , comuniquese con el administrador o intente mas tarde.');
           }
         });
       }

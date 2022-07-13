@@ -52,7 +52,13 @@ export class LoginFuncionarioComponent implements OnInit {
       },
       error:(err:any)=>{
         this.isLoginFailed = true;
-        this.errorMessage = "user or password invalid";
+        if(err.status===404){
+          this.errorMessage = "Usuario o contraseña invalidos";
+        }
+        else{
+          this.errorMessage=err.error;
+        }
+       
       }
     });
   }

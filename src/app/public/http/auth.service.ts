@@ -62,13 +62,12 @@ export class AuthService {
 
 
   private handleError(err: any): Observable<never> {
-    let errorMessage = 'An error occured retrieving data ';
-    if (err) {
-      errorMessage = `Error : code ${err.message}`;
-
+    let errorMessage = 'Un error ha ocurrido consultando los datos ';
+    if (!err.error) {
+      err.error = `${errorMessage} Error code : ${err.status}`;
     }
-    console.log(errorMessage);
-    return throwError(errorMessage);
+
+    return throwError(err);
   }
 
   private getClaims(): any {

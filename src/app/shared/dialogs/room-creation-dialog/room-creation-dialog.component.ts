@@ -61,7 +61,7 @@ export class RoomCreationDialogComponent implements OnInit {
           let newSala : INewSala = {
             link : this.roomCreationForm.value.link,
             cupo : this.roomCreationForm.value.cupo,
-            fecha : this.selectedSala.fecha,
+            fecha : new Date(this.selectedSala.fecha.toString().slice(0,28)),
             usuarioId : activeUser.id
           }
           

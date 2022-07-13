@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MAT_INPUT_VALUE_ACCESSOR } from '@angular/material/input';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { SalaService } from 'src/app/private/http/sala.service';
 import { ISala } from 'src/app/_models/sala.interface';
@@ -26,7 +27,8 @@ export class MeetingCalendarComponent implements OnInit {
   listSalas!: ISala[];
 
   constructor(
-    private salaService: SalaService
+    private salaService: SalaService,
+    private snackBar : MatSnackBar,
   ) {
     this.selected = null;
     this.minDate = new Date();
@@ -97,7 +99,9 @@ export class MeetingCalendarComponent implements OnInit {
           return this.listSalas.some(x => x.fecha.toString().slice(0, 10) === date.toISOString().slice(0, 10));
         }
       },
-      error: (err: any) => { }
+      error: (err: any) => { 
+        this.snackBar.open('Ocurrio un error consultando las salas , comuniquese con el administrador.')
+      }
     });
   }
 

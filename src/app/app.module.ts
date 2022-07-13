@@ -30,6 +30,7 @@ import { errorInterceptorProvider } from './shared/interceptors/error.intercepto
 import { authInterceptorProvider } from './shared/interceptors/auth.interceptor';
 import { NotFound404Component } from './shared/components/not-found404/not-found404.component';
 import { AuthService } from './public/http/auth.service';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,7 +57,8 @@ import { AuthService } from './public/http/auth.service';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    SpinnerModule
+    SpinnerModule,
+    ClipboardModule
   ],
   entryComponents: [
     ScheduleConfirmationDialogComponent,

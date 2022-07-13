@@ -43,7 +43,7 @@ export class DatosInfractorComponent implements OnInit {
 
     this.datosInfractorSvc.getDatosInfractor(this.infractor.id).subscribe({
       next: (data: IDatosInfractor) => {
-        if (data !== null || data !== undefined) {
+        if (data !== null && data !== undefined) {
           this.isEditMode=true;
           this.formDatosInfractor.setValue({
             celular:data.celular,

@@ -8,6 +8,7 @@ import { RoomCreationDialogComponent } from 'src/app/shared/dialogs/room-creatio
 import { ISala } from 'src/app/_models/sala.interface';
 import { AsistenciaService } from '../http/asistencia.service';
 import { SalaService } from '../http/sala.service';
+import {Clipboard} from '@angular/cdk/clipboard';
 
 export interface SalaGrid {
   id: number;
@@ -35,7 +36,8 @@ export class DashboardSmComponent implements OnInit {
     private snackBar : MatSnackBar,
     private salaService : SalaService, 
     private storageService : StorageService,  
-    private asistenciaService : AsistenciaService) { 
+    private asistenciaService : AsistenciaService,
+    private clipboard:Clipboard) { 
     this.userId = this.storageService.getUser().id;
   }
 
@@ -110,7 +112,6 @@ export class DashboardSmComponent implements OnInit {
             room: {
               id: roomData.id,
               fecha: new Date(`${roomData.date}, ${roomData.hour}`),
-              // hour : roomData.hour,
               cupo : roomData.slots,
               link : roomData.link
             }

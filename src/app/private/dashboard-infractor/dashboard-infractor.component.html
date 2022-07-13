@@ -10,7 +10,7 @@
         </mat-form-field>
         <mat-form-field appearance="fill" class="full">
           <mat-label>Direccion</mat-label>
-          <input matInput value="{{datosInfractor.direccion}}" disabled />
+          <input matInput value="{{datosInfractor?.direccion}}" disabled />
         </mat-form-field>
       </div>
       <div class="container-col">
@@ -20,17 +20,17 @@
         </mat-form-field>
         <mat-form-field appearance="fill" class="full">
           <mat-label>Telefono</mat-label>
-          <input matInput value="{{datosInfractor.telefono}}" disabled />
+          <input matInput value="{{datosInfractor?.telefono}}" disabled />
         </mat-form-field>
       </div>
       <div class="container-col">
         <mat-form-field appearance="fill" class="full">
           <mat-label>Correo</mat-label>
-          <input matInput value="{{datosInfractor.email}}" disabled />
+          <input matInput value="{{datosInfractor?.email}}" disabled />
         </mat-form-field>
         <mat-form-field appearance="fill" class="full">
           <mat-label>Celular</mat-label>
-          <input matInput value="{{datosInfractor.celular}}" disabled />
+          <input matInput value="{{datosInfractor?.celular}}" disabled />
         </mat-form-field>
       </div>
     </div>
@@ -75,14 +75,15 @@
       <mat-label>Hora</mat-label>
       <input matInput disabled value="{{selectedSala?.fecha|date:'h:mm a'}}" />
     </mat-form-field>
-    <mat-form-field appearance="fill" class="full">
+    <mat-form-field appearance="fill" class="clipboard">
       <mat-label>Link curso</mat-label>
       <input matInput disabled value="{{selectedSala?.link}}" />
     </mat-form-field>
+    <button mat-icon-button matTooltip="copiar" [cdkCopyToClipboard]="selectedSala.link">
+      <mat-icon>content_copy</mat-icon>
+    </button>
 
-    
-      <button mat-raised-button color="secondary" class="full"
-      routerLink="/infractor/login">SALIR</button>
+    <button mat-raised-button color="secondary" class="full" routerLink="/infractor/login">SALIR</button>
 
   </mat-card-content>
 </mat-card>

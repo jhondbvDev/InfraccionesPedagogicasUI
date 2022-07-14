@@ -28,6 +28,12 @@
         <td mat-cell *matCellDef="let element"> {{element.slots}} </td>
       </ng-container>
 
+      <ng-container matColumnDef="totalslots">
+        <th mat-header-cell *matHeaderCellDef> Total Cupos </th>
+        <td mat-cell *matCellDef="let element"> {{element.totalslots}} </td>
+      </ng-container>
+
+
       <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef> Fecha </th>
         <td mat-cell *matCellDef="let element"> {{element.date}} </td>

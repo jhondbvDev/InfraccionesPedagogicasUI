@@ -18,6 +18,7 @@ export interface SalaGrid {
   slots: number;
   teacher: string;
   fecha:Date;
+  totalslots:number;
 }
 
 @Component({
@@ -30,7 +31,7 @@ export class DashboardSmComponent implements OnInit {
   userId : string;
   salas! : ISala[];
   dataSource! :  MatTableDataSource<SalaGrid>;
-  displayedColumns: string[] = ['teacher', 'link', 'slots','date', 'hour', 'attendanceAction', 'editAction'];
+  displayedColumns: string[] = ['teacher', 'link', 'slots','totalslots','date', 'hour', 'attendanceAction', 'editAction'];
 
   constructor(
     private matDialog: MatDialog, 
@@ -38,7 +39,7 @@ export class DashboardSmComponent implements OnInit {
     private salaService : SalaService, 
     private storageService : StorageService,  
     private asistenciaService : AsistenciaService,
-    private clipboard:Clipboard) { 
+    ) { 
     this.userId = this.storageService.getUser().id;
   }
 
@@ -72,6 +73,7 @@ export class DashboardSmComponent implements OnInit {
             teacher: sala.nombreUsuario, 
             link: sala.link, 
             slots: sala.cupo,
+            totalslots:sala.totalCupo,
             fecha:fixedDate} 
         });
         this.dataSource= new MatTableDataSource<SalaGrid>(dataGrid);
@@ -114,7 +116,8 @@ export class DashboardSmComponent implements OnInit {
             room: {
               id: roomData.id,
               fecha: roomData.fecha,
-              cupo : roomData.slots,
+              totalCupo : roomData.totalslots,
+              cupo:roomData.slots,
               link : roomData.link
             }
           }

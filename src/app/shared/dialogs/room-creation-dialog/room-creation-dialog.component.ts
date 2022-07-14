@@ -26,13 +26,13 @@ export class RoomCreationDialogComponent implements OnInit {
     if(data.isCreation){
       this.roomCreationForm =  new FormGroup({
         link: new FormControl('', [Validators.required, Validators.minLength(3)]),
-        cupo: new FormControl('', [Validators.required, Validators.minLength(1)])
+        totalCupo: new FormControl('', [Validators.required])
       });
     }
     else{
       this.roomCreationForm =  new FormGroup({
         link: new FormControl(data.room.link, [Validators.required, Validators.minLength(3)]),
-        cupo: new FormControl(data.room.cupo, [Validators.required, Validators.minLength(1)])
+        totalCupo: new FormControl(data.room.totalCupo, [Validators.required])
       });
 
     }
@@ -60,9 +60,10 @@ export class RoomCreationDialogComponent implements OnInit {
       
           let newSala : INewSala = {
             link : this.roomCreationForm.value.link,
-            cupo : this.roomCreationForm.value.cupo,
+            cupo : this.roomCreationForm.value.totalCupo,
             fecha : new Date(this.selectedSala.fecha.toString().slice(0,28)),
-            usuarioId : activeUser.id
+            usuarioId : activeUser.id,
+            totalCupo:this.roomCreationForm.value.totalCupo
           }
           
           this.salaService.createSala(newSala).subscribe(
@@ -79,7 +80,7 @@ export class RoomCreationDialogComponent implements OnInit {
           let updatedSala : IEditSala = {
             id : this.data.room.id,
             link : this.roomCreationForm.value.link,
-            cupo : this.roomCreationForm.value.cupo,
+            totalCupo : this.roomCreationForm.value.totalCupo,
             fecha : new Date(this.selectedSala.fecha.toString().slice(0,28))
           }
 

@@ -19,6 +19,22 @@
       "prefix": "app",
       "architect": {
         "build": {
+          "production": {
+            "fileReplacements": [
+              {
+                "replace": "src/environments/environment.ts",
+                "with": "src/environments/environment.prod.ts"
+              }
+            ]
+          },
+          "staging": {
+            "fileReplacements": [
+              {
+                "replace": "src/environments/environment.ts",
+                "with": "src/environments/environment.staging.ts"
+              }
+            ]
+          },
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/infracciones-pedagogicas.ui",

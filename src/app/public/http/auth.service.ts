@@ -15,6 +15,7 @@ export class AuthService {
   constructor(private http: HttpClient, private StorageService: StorageService) { }
 
   getAuth(authData: IUser): Observable<any> {
+    console.log(`${environment.API_URL}api/auth/signIn`);
     return this.http.post<IToken>(`${environment.API_URL}api/auth/signIn`, authData)
       .pipe(
         catchError(err => this.handleError(err))

@@ -1,5 +1,5 @@
 export const environment = {
     production: false,
-    API_URL:"https://infraccion.devaia.com/"
+    API_URL:"http://localhost:5153/"
   };
   

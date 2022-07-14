@@ -7,8 +7,8 @@
       <input matInput formControlName="link"/>
     </mat-form-field>
     <mat-form-field appearance="fill" class="full">
-      <mat-label>Cupos</mat-label>
-      <input matInput type="number" formControlName="cupo" />
+      <mat-label>Total Cupo</mat-label>
+      <input matInput type="number" formControlName="totalCupo" />
     </mat-form-field>
     <app-meeting-calendar [default]="true" [inputSala]="selectedSala" (selectedSala)="onChangeSelectedSala($event)"></app-meeting-calendar>
   </form>

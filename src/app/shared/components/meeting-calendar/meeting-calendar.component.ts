@@ -75,7 +75,8 @@ export class MeetingCalendarComponent implements OnInit {
         cupo: 0,
         link: '',
         usuarioId: '',
-        nombreUsuario:''
+        nombreUsuario:'',
+        totalCupo:0
       }
       listSalas.push({ "isActive": false, "sala": newSala });
     }

@@ -113,11 +113,11 @@
               <input matInput [readonly]="true" [value]="selectedFile?.name">
             </mat-form-field>
           </form>
-          <input #csvInput hidden="true" type="file" (change)="csvInputChange($event)" accept=".xlsx"/>
+          <input #csvInput hidden="true" type="file" onclick="this.value = null" (change)="csvInputChange($event)" accept=".xlsx"/>
           <button mat-raised-button color="primary" (click)="csvInput.click()" *ngIf="!selectedFile">Escoja el archivo a cargar</button>
           <div class="container-row medium-gap">
             <button mat-raised-button color="primary" (click)="uploadFile()" *ngIf="selectedFile">Cargar archivo</button>
-            <button mat-raised-button color="secondary" (click)="csvInput.value = ''; clearSelectedFile()" *ngIf="selectedFile">Limpiar</button>
+            <button mat-raised-button color="secondary" (click)="clearSelectedFile()" *ngIf="selectedFile">Limpiar</button>
           </div>
           <div class="spacing vertical-3"></div>
         </mat-card-content>

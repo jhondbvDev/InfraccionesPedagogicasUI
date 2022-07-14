@@ -88,7 +88,7 @@ export class DashboardTmbComponent implements OnInit {
           return  {
             id: sala.id, 
             date: fixedDate.toLocaleDateString(), 
-            hour: fixedDate.toLocaleTimeString(), 
+            hour: fixedDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit'}), 
             teacher: sala.nombreUsuario, 
             link: sala.link, 
             slots: sala.cupo} 

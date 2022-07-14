@@ -4,11 +4,11 @@
   <form [formGroup]="roomCreationForm">
     <mat-form-field appearance="fill" class="full">
       <mat-label>Link</mat-label>
-      <input matInput formControlName="link"/>
+      <input matInput formControlName="link" maxlength="200" />
     </mat-form-field>
     <mat-form-field appearance="fill" class="full">
       <mat-label>Cupos</mat-label>
-      <input matInput type="number" formControlName="cupo" />
+      <input matInput type="number" onKeyPress="if(this.value.length==3) return false;" formControlName="cupo" />
     </mat-form-field>
     <app-meeting-calendar [default]="true" [inputSala]="selectedSala" (selectedSala)="onChangeSelectedSala($event)"></app-meeting-calendar>
   </form>

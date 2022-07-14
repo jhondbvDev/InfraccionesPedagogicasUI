@@ -3,19 +3,19 @@
   <form [formGroup]="userCreationForm">
     <mat-form-field appearance="fill" class="full">
       <mat-label>Nombre</mat-label>
-      <input matInput formControlName="username"/>
+      <input matInput formControlName="username" maxlength="100" />
     </mat-form-field>
     <mat-form-field appearance="fill" class="full">
       <mat-label>Email</mat-label>
-      <input matInput formControlName="email"/>
+      <input matInput formControlName="email" maxlength="50"/>
     </mat-form-field>
     <mat-form-field appearance="fill" class="full">
       <mat-label>Contraseña</mat-label>
-      <input matInput type="password" formControlName="password" autocomplete="off" />
+      <input matInput type="password" formControlName="password" autocomplete="off" maxlength="200" />
     </mat-form-field>
     <mat-form-field appearance="fill" class="full">
       <mat-label>Confirmar Contraseña</mat-label>
-      <input matInput type="password" formControlName="confirmPassword" autocomplete="off" />
+      <input matInput type="password" formControlName="confirmPassword" autocomplete="off" maxlength="200" />
     </mat-form-field>
     <mat-form-field appearance="fill" class="full">
       <mat-label>Rol</mat-label>

@@ -26,13 +26,13 @@ export class RoomCreationDialogComponent implements OnInit {
     if(data.isCreation){
       this.roomCreationForm =  new FormGroup({
         link: new FormControl('', [Validators.required, Validators.minLength(3)]),
-        cupo: new FormControl('', [Validators.required])
+        cupo: new FormControl('', [Validators.required, Validators.minLength(1)])
       });
     }
     else{
       this.roomCreationForm =  new FormGroup({
         link: new FormControl(data.room.link, [Validators.required, Validators.minLength(3)]),
-        cupo: new FormControl(data.room.cupo, [Validators.required])
+        cupo: new FormControl(data.room.cupo, [Validators.required, Validators.minLength(1)])
       });
 
     }

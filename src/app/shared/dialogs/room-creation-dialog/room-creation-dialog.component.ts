@@ -22,7 +22,7 @@ export class RoomCreationDialogComponent implements OnInit {
     private storageService: StorageService, 
     private salaService : SalaService,
     @Inject(MAT_DIALOG_DATA) public data: any) { 
-
+     
     if(data.isCreation){
       this.roomCreationForm =  new FormGroup({
         link: new FormControl('', [Validators.required, Validators.minLength(3)]),

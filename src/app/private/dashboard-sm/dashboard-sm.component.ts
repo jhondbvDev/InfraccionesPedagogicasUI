@@ -17,6 +17,7 @@ export interface SalaGrid {
   link: string;
   slots: number;
   teacher: string;
+  fecha:Date;
 }
 
 @Component({
@@ -70,7 +71,8 @@ export class DashboardSmComponent implements OnInit {
             hour: fixedDate.toLocaleTimeString(), 
             teacher: sala.nombreUsuario, 
             link: sala.link, 
-            slots: sala.cupo} 
+            slots: sala.cupo,
+            fecha:fixedDate} 
         });
         this.dataSource= new MatTableDataSource<SalaGrid>(dataGrid);
       },
@@ -111,7 +113,7 @@ export class DashboardSmComponent implements OnInit {
             isCreation : false,
             room: {
               id: roomData.id,
-              fecha: new Date(`${roomData.date}, ${roomData.hour}`),
+              fecha: roomData.fecha,
               cupo : roomData.slots,
               link : roomData.link
             }

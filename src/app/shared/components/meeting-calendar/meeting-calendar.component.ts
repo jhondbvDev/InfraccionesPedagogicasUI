@@ -18,7 +18,7 @@ export class MeetingCalendarComponent implements OnInit {
   @Output() selectedSala= new EventEmitter<ISala>;
   @Input() inputSala:ISala|null=null;
   selected: Date | null;
-  minDate: Date;
+  minDate!: Date;
   dateFilter = (date: Date): boolean => {return true;}
 
   // listDates: Array<Date>;
@@ -31,9 +31,7 @@ export class MeetingCalendarComponent implements OnInit {
     private snackBar : MatSnackBar,
   ) {
     this.selected = null;
-    this.minDate = new Date();
     this.selectedSala.emit(undefined);
-    // this.listDates = DATA;
     this.defaultListSalas = this.generateSalas(new Date());
 
   }
@@ -107,6 +105,14 @@ export class MeetingCalendarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if(this.default){
+      this.minDate = new Date();
+      this.minDate.setDate(this.minDate.getDate() + 1);
+    }
+    else{
+      this.minDate = new Date();
+    }
+
     if(this.inputSala!==null && this.inputSala!==undefined){
       //Modo edicion
       this.onDateChanged(this.inputSala.fecha);

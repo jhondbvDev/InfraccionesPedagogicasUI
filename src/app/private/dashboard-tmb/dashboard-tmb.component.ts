@@ -152,21 +152,19 @@ export class DashboardTmbComponent implements OnInit {
   }
 
   uploadFile(){
-    this.fileUploadService.processInfracciones(this.selectedFile!).subscribe(
-      data => {
-        this.snackBar.open(data);
-        // if(data == true){
-        //   this.snackBar.open("Archivo cargado con exito");
-        //   this.clearSelectedFile();
-        // }
-        // else{
-        //   this.snackBar.open("Error durante la carga del archivo, intente nuevamente");
-        // }
+    this.fileUploadService.processInfracciones(this.selectedFile!).subscribe({
+      next:(data:boolean)=>{
+         if(data == true){
+          this.snackBar.open("Archivo cargado con exito");
+          this.clearSelectedFile();
+        }
+        else{
+          this.snackBar.open("Error durante la carga del archivo, intente nuevamente");
+        }
       },
-      errorContext => {
-        this.snackBar.open("Error durante la carga del archivo, intente nuevamente");
-        // this.snackBar.open(errorContext.error);
+      error:(err:any)=>{
+        this.snackBar.open(err.error);
       }
-    )
+    });
   }
 }

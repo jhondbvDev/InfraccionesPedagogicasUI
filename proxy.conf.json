@@ -1,0 +1,9 @@
+{
+    "/api/": {
+      "target": "https://infraccion.devaia.com",
+      "secure": false,
+      "pathRewrite": {"^/api": ""},
+        "changeOrigin": true,
+        "logLevel": "debug"
+    }
+  }

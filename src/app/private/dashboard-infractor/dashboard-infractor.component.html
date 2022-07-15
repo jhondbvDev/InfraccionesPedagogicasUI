@@ -89,6 +89,7 @@
 </mat-card>
 <mat-card *ngIf="asistencia==undefined">
   <mat-card-title>Programar curso</mat-card-title>
+  <mat-card-subtitle>Seleccione una fecha y hora disponible para ver su curso y de click en programar.</mat-card-subtitle>
   <mat-card-content class="containerPadding">
     <!--Calendario-->
     <app-meeting-calendar [default]="false" (selectedSala)="onChangeSelectedSala($event)"></app-meeting-calendar>

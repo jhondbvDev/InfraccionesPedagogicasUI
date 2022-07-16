@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import {  Router } from '@angular/router';
@@ -14,6 +14,8 @@ import { AsistenciaService } from '../http/asistencia.service';
 import { IAsistencia } from 'src/app/_models/asistencia.interface';
 import { SalaService } from '../http/sala.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+
+import * as html2pdf from 'html2pdf.js'
 
 export interface infraccionGrid{
   date:string;
@@ -33,6 +35,8 @@ export class DashboardInfractorComponent implements OnInit {
   displayedColumns: string[] = ['date', 'concept'];
   selectedSala!:ISala;
   asistencia:IAsistencia|undefined;
+
+  @ViewChild('infractorContent') infractorContent! : ElementRef
 
   constructor(
     private router: Router,
@@ -127,5 +131,15 @@ export class DashboardInfractorComponent implements OnInit {
     });
   }
 
+  async printPdf(){
+    const opt = {
+      margin: 1,
+      filename: "agenda.pdf",
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+    };
 
+    await html2pdf().set(opt).from(this.infractorContent.nativeElement.innerHTML).save();
+  }
 }

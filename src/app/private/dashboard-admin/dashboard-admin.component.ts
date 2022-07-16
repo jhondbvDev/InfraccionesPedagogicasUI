@@ -62,13 +62,14 @@ export class DashboardAdminComponent implements OnInit {
     this.loadUsers();
   }
 
-  checkAttendance(salaId : number) {
+  checkAttendance(sala : ISala) {
     let dialogConfig = new MatDialogConfig();
     dialogConfig.width = '600px';
     dialogConfig.disableClose = true;
     dialogConfig.data = {
       canModify: false,
-      salaId: salaId
+      salaId: sala.id,
+      fecha:sala.fecha
     }
 
     this.matDialog.open(AttendanceCheckingDialogComponent, dialogConfig)
@@ -86,7 +87,8 @@ export class DashboardAdminComponent implements OnInit {
             hour: fixedDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit'}), 
             teacher: sala.nombreUsuario, 
             link: sala.link, 
-            slots: sala.cupo} 
+            slots: sala.cupo,
+            fecha:sala.fecha} 
         });
         this.dataSource= new MatTableDataSource<SalaGrid>(dataGrid);
       },

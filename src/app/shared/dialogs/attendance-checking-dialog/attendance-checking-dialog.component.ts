@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { AsistenciaService } from 'src/app/private/http/asistencia.service';
 import { IAsistenciaDeep, IUpdateAsistencia } from 'src/app/_models/asistencia.interface';
 import { saveAs } from 'file-saver';
+import { SpinnerService } from '../../services/spinner.service';
 
 export interface AsistenciaGrid {
   id: number;
@@ -20,14 +21,14 @@ export interface AsistenciaGrid {
 })
 export class AttendanceCheckingDialogComponent implements OnInit {
 
-  asistencias! : IAsistenciaDeep[];
+  asistencias!: IAsistenciaDeep[];
   displayedColumns: string[] = ['name', 'attendedClass'];
   dataSource = new MatTableDataSource<AsistenciaGrid>;
 
   constructor(
-    private dialogRef: MatDialogRef<AttendanceCheckingDialogComponent>, 
-    private asistenciaService : AsistenciaService, 
-    private snackBar : MatSnackBar,
+    private dialogRef: MatDialogRef<AttendanceCheckingDialogComponent>,
+    private asistenciaService: AsistenciaService,
+    private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.loadAttendance();
   }
@@ -35,18 +36,18 @@ export class AttendanceCheckingDialogComponent implements OnInit {
   ngOnInit() {
   }
 
-  loadAttendance(){
+  loadAttendance() {
     this.asistenciaService.getAsistenciaBySala(this.data.salaId).subscribe(
       data => {
         this.asistencias = data;
-        let dataGrid : AsistenciaGrid[] = this.asistencias.map(function(asistencia){
-          return  {
-            id: asistencia.id, 
+        let dataGrid: AsistenciaGrid[] = this.asistencias.map(function (asistencia) {
+          return {
+            id: asistencia.id,
             name: asistencia.nombreInfractor,
             attendedClass: asistencia.asistio
-          } 
+          }
         });
-        this.dataSource= new MatTableDataSource<AsistenciaGrid>(dataGrid);
+        this.dataSource = new MatTableDataSource<AsistenciaGrid>(dataGrid);
       },
       errorContext => {
         console.log(errorContext.error);
@@ -54,10 +55,10 @@ export class AttendanceCheckingDialogComponent implements OnInit {
     )
   }
 
-  onAttendanceChange($event : any, attendanceId : number){
-    let updatedAttendance : IUpdateAsistencia ={
-      id : attendanceId,
-      asistio : $event.checked
+  onAttendanceChange($event: any, attendanceId: number) {
+    let updatedAttendance: IUpdateAsistencia = {
+      id: attendanceId,
+      asistio: $event.checked
     }
 
     this.asistenciaService.updateAsitencia(updatedAttendance).subscribe(
@@ -74,25 +75,28 @@ export class AttendanceCheckingDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  exportExcel():void{
-    if(this.asistencias.length>0){
-      const date= this.data.fecha;
+  exportExcel(): void {
+    if (this.asistencias.length > 0) {
+      const date = this.data.fecha;
       this.asistenciaService.getAsistenciaExcelBySala(this.data.salaId).subscribe(
         {
-         next:(result:any)=>{
-          let file = new Blob([result], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-            let fileName = `asistencias-${date.toLocaleString()}`;
+          next: (result: any) => {
+
+            let file = new Blob([result], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+            let fileName = `asistencias-${date?.toLocaleString()}`;
             saveAs(file, fileName);
-         },
-         error:(err:any)=>{
-          this.snackBar.open("Ocurrio un error descargando el archivo.");
-         }
+
+          },
+          error: (err: any) => {
+
+            this.snackBar.open("Ocurrio un error descargando el archivo.");
+          }
         }
       )
     }
-    else{
+    else {
       this.snackBar.open("No es posible exportar a excel , no hay informacion");
     }
-   
+
   }
 }

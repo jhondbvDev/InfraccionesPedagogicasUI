@@ -31,6 +31,7 @@ import { authInterceptorProvider } from './shared/interceptors/auth.interceptor'
 import { NotFound404Component } from './shared/components/not-found404/not-found404.component';
 import { AuthService } from './public/http/auth.service';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { DashboardAdminComponent } from './private/dashboard-admin/dashboard-admin.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,6 +49,7 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
     UserCreationDialogComponent,
     MeetingCalendarComponent,
     NotFound404Component,
+    DashboardAdminComponent,
   ],
   imports: [
     BrowserModule,

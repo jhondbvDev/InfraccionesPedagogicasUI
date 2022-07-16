@@ -26,7 +26,11 @@ export class LoginFuncionarioComponent implements OnInit {
   ngOnInit() {
     if (this.authService.isLoggedIn()) {
       const user= this.authService.getCurrentUser();
-      if(user?.rol?.toLocaleLowerCase()==='tmb')
+      if(user?.rol?.toLocaleLowerCase()==='admin')
+      {
+        this.router.navigateByUrl("admin/dashboard");
+      }
+      else if(user?.rol?.toLocaleLowerCase()==='tmb')
       {
         this.router.navigateByUrl("tmb/dashboard");
       }
@@ -36,7 +40,6 @@ export class LoginFuncionarioComponent implements OnInit {
       else{
         this.router.navigateByUrl("funcionario/login");
       }
-      
     }
   }
 
@@ -64,7 +67,14 @@ export class LoginFuncionarioComponent implements OnInit {
   }
 
   private getUrlByRol(rol:string):string{
-    return rol.toLowerCase()==="tmb"?"tmb/dashboard":"sm/dashboard";
+    if(rol.toLowerCase() === "admin"){
+      return "admin/dashboard"
+    }
+    else if(rol.toLowerCase() === "tmb"){
+      return "tmb/dashboard";
+    }
+    else{
+      return "sm/dashboard";
+    }
   }
-
 }

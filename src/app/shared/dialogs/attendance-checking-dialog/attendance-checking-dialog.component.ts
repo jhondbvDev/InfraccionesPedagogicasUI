@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { AsistenciaService } from 'src/app/private/http/asistencia.service';
 import { IAsistenciaDeep, IUpdateAsistencia } from 'src/app/_models/asistencia.interface';
+import { saveAs } from 'file-saver';
 
 export interface AsistenciaGrid {
   id: number;
@@ -71,5 +72,27 @@ export class AttendanceCheckingDialogComponent implements OnInit {
 
   close() {
     this.dialogRef.close();
+  }
+
+  exportExcel():void{
+    if(this.asistencias.length>0){
+      const date= this.data.fecha;
+      this.asistenciaService.getAsistenciaExcelBySala(this.data.salaId).subscribe(
+        {
+         next:(result:any)=>{
+          let file = new Blob([result], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+            let fileName = `asistencias-${date.toLocaleString()}`;
+            saveAs(file, fileName);
+         },
+         error:(err:any)=>{
+          this.snackBar.open("Ocurrio un error descargando el archivo.");
+         }
+        }
+      )
+    }
+    else{
+      this.snackBar.open("No es posible exportar a excel , no hay informacion");
+    }
+   
   }
 }

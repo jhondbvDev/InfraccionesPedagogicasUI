@@ -30,4 +30,11 @@ export class AsistenciaService {
   hasRegisteredInfractores(salaId: number){
     return this.http.get<boolean>(`${environment.API_URL}api/asistencia/hasRegisteredInfractores/${salaId}`);
   }
+
+  getAsistenciaExcelBySala(salaId:number){
+    const httpOptions = {
+      responseType: 'blob' as 'json'
+    };
+    return this.http.get(`${environment.API_URL}api/asistencia/getAsistenciaExcelBySalaId/${salaId}`,httpOptions);
+  }
 }

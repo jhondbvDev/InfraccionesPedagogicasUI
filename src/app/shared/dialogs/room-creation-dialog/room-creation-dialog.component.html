@@ -8,7 +8,7 @@
     </mat-form-field>
     <mat-form-field appearance="fill" class="full">
       <mat-label>Total Cupo</mat-label>
-      <input matInput type="number" onKeyPress="if(this.value.length==3) return false;" formControlName="totalCupo" />
+      <input matInput type="number" onKeyPress="if(this.value.length==3) return false;" formControlName="totalCupo" onpaste="event.preventDefault()" />
     </mat-form-field>
     <app-meeting-calendar [default]="true" [inputSala]="selectedSala" (selectedSala)="onChangeSelectedSala($event)"></app-meeting-calendar>
   </form>

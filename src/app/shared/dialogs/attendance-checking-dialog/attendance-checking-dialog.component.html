@@ -19,5 +19,10 @@
   </table>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-raised-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>VOLVER</button>
+  <div class="buttonGroup">
+    <button mat-raised-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>VOLVER</button>
+<button mat-stroked-button color="success" (click)="exportExcel()" >Excel
+  <mat-icon>download</mat-icon>
+</button>
+  </div>
 </mat-dialog-actions>

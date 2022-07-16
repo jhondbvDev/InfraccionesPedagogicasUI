@@ -47,13 +47,14 @@ export class DashboardSmComponent implements OnInit {
     this.loadSalas();
   }
 
-  checkAttendance(salaId : number) {
+  checkAttendance(sala : ISala) {
     let dialogConfig = new MatDialogConfig();
     dialogConfig.width = '600px';
     dialogConfig.disableClose = true;
     dialogConfig.data = {
       canModify: true,
-      salaId: salaId
+      salaId: sala.id,
+      fecha:sala.fecha
     }
 
     this.matDialog.open(AttendanceCheckingDialogComponent, dialogConfig)

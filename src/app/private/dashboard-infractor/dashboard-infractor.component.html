@@ -1,5 +1,5 @@
 <div #infractorContent>
-  <mat-card>
+  <mat-card [ngClass]="{'show': !isPrintingPdf, 'hide' : isPrintingPdf}">
     <mat-card-title>Datos Usuario</mat-card-title>
     <mat-card-content class="containerPadding">
       <div class="spacing vertical-4"></div>
@@ -37,9 +37,38 @@
       </div>
     </mat-card-content>
   </mat-card>
+
+  <mat-card [ngClass]="{'show': isPrintingPdf, 'hide' : !isPrintingPdf}">
+    <mat-card-title>
+      Datos Usuario
+      <div class="spacing vertical-5"></div>
+      <mat-divider></mat-divider>
+    </mat-card-title>
+    <mat-card-content class="containerPadding">
+      <div class="spacing vertical-4"></div>
+      <div class="container-row">
+        <div class="container-col">
+          <label><span class="bold">Nombre:</span> {{infractor?.nombre}}</label>
+          <label><span class="bold">Apellido:</span> {{infractor?.apellido}}</label>
+          <label><span class="bold">Direccion:</span> {{datosInfractor?.direccion}}</label>
+        </div>
+        <div class="container-col">
+          <label><span class="bold">Telefono:</span> {{datosInfractor?.direccion}}</label>
+          <label><span class="bold">Correo:</span> {{datosInfractor?.email}}</label>
+          <label><span class="bold">Celular:</span> {{datosInfractor?.celular}}</label>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
   <div class="spacing vertical-2"></div>
+  
   <mat-card>
-    <mat-card-title>Infracciones</mat-card-title>
+    <mat-card-title>
+      Infracciones
+      <div class="spacing vertical-5" *ngIf="isPrintingPdf"></div>
+      <mat-divider *ngIf="isPrintingPdf"></mat-divider>
+    </mat-card-title>
     <mat-card-content class="containerPadding">
       <div class="spacing vertical-4"></div>
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 full">
@@ -60,10 +89,12 @@
       <div class="spacing vertical-3"></div>
     </mat-card-content>
   </mat-card>
+
   <div class="spacing vertical-2"></div>
-  <mat-card *ngIf="asistencia!=undefined">
+
+  <mat-card *ngIf="asistencia!=undefined" [ngClass]="{'show': !isPrintingPdf, 'hide' : isPrintingPdf}">
     <mat-card-title>Detalles curso</mat-card-title>
-    <mat-card-content>
+    <mat-card-content class="containerPadding">
       <div class="spacing vertical-4"></div>
       <mat-form-field appearance="fill" class="full">
         <mat-label>Profesor</mat-label>
@@ -91,6 +122,28 @@
   
     </mat-card-content>
   </mat-card>
+
+  <mat-card *ngIf="asistencia!=undefined" [ngClass]="{'show': isPrintingPdf, 'hide' : !isPrintingPdf}">
+    <mat-card-title>
+      Detalles curso
+      <div class="spacing vertical-5"></div>
+      <mat-divider></mat-divider>
+    </mat-card-title>
+    <mat-card-content class="containerPadding">      
+      <div class="spacing vertical-4"></div>
+      <div class="container-row">
+        <div class="container-col">
+          <label><span class="bold">Profesor:</span> {{selectedSala?.nombreUsuario}}</label>
+          <label><span class="bold">Fecha:</span> {{selectedSala?.fecha | date:'dd-MM-yyyy'}}</label>
+        </div>
+        <div class="container-col">
+          <label><span class="bold">Hora:</span> {{selectedSala?.fecha|date:'h:mm a'}}</label>
+          <label><span class="bold">Link curso:</span> {{selectedSala?.link}}</label>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
   <mat-card *ngIf="asistencia==undefined">
     <mat-card-title>Programar curso</mat-card-title>
     <mat-card-subtitle>Seleccione una fecha y hora disponible para ver su curso y de click en programar.</mat-card-subtitle>

@@ -34,4 +34,8 @@ export class SalaService {
   updateSala(sala : IEditSala):Observable<any>{
     return this.http.put(`${environment.API_URL}api/sala`, sala, { responseType: 'text' })
   }
+
+  deleteSala(salaId : number):Observable<any>{
+    return this.http.delete<boolean>(`${environment.API_URL}api/sala/${salaId}`)
+  }
 }

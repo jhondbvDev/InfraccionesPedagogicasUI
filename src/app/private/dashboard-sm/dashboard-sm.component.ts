@@ -31,7 +31,7 @@ export class DashboardSmComponent implements OnInit {
   userId : string;
   salas! : ISala[];
   dataSource! :  MatTableDataSource<SalaGrid>;
-  displayedColumns: string[] = ['teacher', 'link', 'slots','totalslots','date', 'hour', 'attendanceAction', 'editAction'];
+  displayedColumns: string[] = ['teacher', 'link', 'slots','totalslots','date', 'hour', 'attendanceAction', 'editAction', 'deleteAction'];
 
   constructor(
     private matDialog: MatDialog, 
@@ -140,5 +140,33 @@ export class DashboardSmComponent implements OnInit {
 
   copyClipBoard(element:ISala){
     this.clipboard.copy(element.link);
+  }
+  deleteRoom(salaId : number){
+    this.asistenciaService.hasRegisteredInfractores(salaId).subscribe(
+      data =>{
+        if(data == true){
+          this.snackBar.open("Esta sala no se puede eliminarse ya que contiene infractores registrados");
+        }
+        else{
+          this.salaService.deleteSala(salaId).subscribe(
+            data => {
+              if(data == true){
+                this.snackBar.open("Sala eliminada con exito");
+                this.loadSalas();
+              }
+              else{
+                this.snackBar.open("Error durante el proceso de eliminacion de sala, intente nuevamente");
+              }
+            },
+            errorContext =>{
+              this.snackBar.open(errorContext.error);
+            }
+          )
+        }
+      },
+      errorContext => {
+        this.snackBar.open(errorContext.error);
+      }
+      );
   }
 }

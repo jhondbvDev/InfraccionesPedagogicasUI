@@ -36,6 +36,8 @@ export class DashboardInfractorComponent implements OnInit {
   displayedColumns: string[] = ['date', 'concept'];
   selectedSala!:ISala;
   asistencia:IAsistencia|undefined;
+  
+  isPrintingPdf : boolean = false;
 
   @ViewChild('infractorContent') infractorContent! : ElementRef
 
@@ -133,7 +135,7 @@ export class DashboardInfractorComponent implements OnInit {
     });
   }
 
-  async printPdf(){
+  printPdf(){
     const opt = {
       margin: 1,
       filename: "agenda.pdf",
@@ -142,7 +144,13 @@ export class DashboardInfractorComponent implements OnInit {
       jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
     };
 
-    await html2pdf().set(opt).from(this.infractorContent.nativeElement.innerHTML).save();
+    this.isPrintingPdf = true;
+
+    setTimeout(async () => 
+    {
+      await html2pdf().set(opt).from(this.infractorContent.nativeElement.innerHTML).save();
+      this.isPrintingPdf = false;
+    }, 500);
   }
 
   copyClipBoard(){

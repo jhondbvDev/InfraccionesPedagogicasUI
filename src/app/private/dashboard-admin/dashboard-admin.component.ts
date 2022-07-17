@@ -9,6 +9,7 @@ import { ISala } from 'src/app/_models/sala.interface';
 import { IUserInfo } from 'src/app/_models/user.interface';
 import { SalaService } from '../http/sala.service';
 import { UsuarioService } from '../http/usuario.service';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 export interface Sala {
   infNumber: string;
@@ -52,7 +53,8 @@ export class DashboardAdminComponent implements OnInit {
     private matDialog: MatDialog, 
     private snackBar : MatSnackBar, 
     private usuarioService : UsuarioService, 
-    private salaService : SalaService, 
+    private salaService : SalaService,
+    private clipboard:Clipboard, 
     private storageService: StorageService) 
     {
     }
@@ -138,5 +140,9 @@ export class DashboardAdminComponent implements OnInit {
         this.snackBar.open(errorContext.error);
       }
     )
+  }
+
+  copyClipBoard(element:ISala){
+    this.clipboard.copy(element.link);
   }
 }

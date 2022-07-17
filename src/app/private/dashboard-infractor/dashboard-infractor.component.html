@@ -81,7 +81,7 @@
         <mat-label>Link curso</mat-label>
         <input matInput value="{{selectedSala?.link}}" readonly />
       </mat-form-field>
-      <button mat-icon-button matTooltip="copiar" [cdkCopyToClipboard]="selectedSala.link">
+      <button mat-icon-button matTooltip="copiar" (click)="copyClipBoard()">
         <mat-icon>content_copy</mat-icon>
       </button>
   

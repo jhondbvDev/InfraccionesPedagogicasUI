@@ -16,6 +16,7 @@ import { SalaService } from '../http/sala.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import * as html2pdf from 'html2pdf.js'
+import { Clipboard } from '@angular/cdk/clipboard';
 
 export interface infraccionGrid{
   date:string;
@@ -45,7 +46,8 @@ export class DashboardInfractorComponent implements OnInit {
     private dataDatosInfractorSvc: DataDatosInfractorService,
     private asistenciaSvc:AsistenciaService,
     private salaSvc:SalaService,
-    private snackBar:MatSnackBar 
+    private snackBar:MatSnackBar,
+    private clipboard:Clipboard 
   ) { 
 
   }
@@ -141,5 +143,9 @@ export class DashboardInfractorComponent implements OnInit {
     };
 
     await html2pdf().set(opt).from(this.infractorContent.nativeElement.innerHTML).save();
+  }
+
+  copyClipBoard(){
+    this.clipboard.copy(this.selectedSala.link);
   }
 }

@@ -37,6 +37,7 @@ export class DashboardSmComponent implements OnInit {
     private matDialog: MatDialog, 
     private snackBar : MatSnackBar,
     private salaService : SalaService, 
+    private clipboard:Clipboard, 
     private storageService : StorageService,  
     private asistenciaService : AsistenciaService,
     ) { 
@@ -135,5 +136,9 @@ export class DashboardSmComponent implements OnInit {
         this.snackBar.open(errorContext.error);
       }
       );
+  }
+
+  copyClipBoard(element:ISala){
+    this.clipboard.copy(element.link);
   }
 }

@@ -62,7 +62,7 @@
   </mat-card>
 
   <div class="spacing vertical-2"></div>
-  
+
   <mat-card>
     <mat-card-title>
       Infracciones
@@ -72,17 +72,17 @@
     <mat-card-content class="containerPadding">
       <div class="spacing vertical-4"></div>
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 full">
-  
+
         <ng-container matColumnDef="date">
           <th mat-header-cell *matHeaderCellDef> Fecha </th>
           <td mat-cell *matCellDef="let element"> {{element.date|date:'dd-MM-yyyy'}} </td>
         </ng-container>
-  
+
         <ng-container matColumnDef="concept">
           <th mat-header-cell *matHeaderCellDef> Concepto </th>
           <td mat-cell *matCellDef="let element"> {{element.concept}} </td>
         </ng-container>
-  
+
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
@@ -115,11 +115,10 @@
       <button mat-icon-button matTooltip="copiar" (click)="copyClipBoard()">
         <mat-icon>content_copy</mat-icon>
       </button>
-  
-      <button mat-raised-button color="primary" class="full" (click)="printPdf()">DESCARGAR PDF</button>
-      <div class="spacing vertical-5"></div>
-      <button mat-raised-button color="secondary" class="full" routerLink="/infractor/login">SALIR</button>
-  
+      <div class="buttonGroup">
+        <button mat-raised-button color="secondary" class="full" routerLink="/infractor/login">SALIR</button>
+        <button mat-stroked-button color="warn" class="full" (click)="printPdf()">DESCARGAR PDF</button>
+      </div>
     </mat-card-content>
   </mat-card>
 
@@ -129,7 +128,7 @@
       <div class="spacing vertical-5"></div>
       <mat-divider></mat-divider>
     </mat-card-title>
-    <mat-card-content class="containerPadding">      
+    <mat-card-content class="containerPadding">
       <div class="spacing vertical-4"></div>
       <div class="container-row">
         <div class="container-col">
@@ -146,7 +145,10 @@
 
   <mat-card *ngIf="asistencia==undefined">
     <mat-card-title>Programar curso</mat-card-title>
-    <mat-card-subtitle>Seleccione una fecha y hora disponible para ver su curso y de click en programar.</mat-card-subtitle>
+    <div class="card-desc">
+      <mat-card-subtitle>Seleccione una fecha y hora disponible para ver su curso, luego de click en programar.
+      </mat-card-subtitle>
+    </div>
     <mat-card-content class="containerPadding">
       <!--Calendario-->
       <app-meeting-calendar [default]="false" (selectedSala)="onChangeSelectedSala($event)"></app-meeting-calendar>

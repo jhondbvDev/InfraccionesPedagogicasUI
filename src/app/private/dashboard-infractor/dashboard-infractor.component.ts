@@ -148,6 +148,6 @@ export class DashboardInfractorComponent implements OnInit {
     {
       await html2pdf().set(opt).from(this.infractorContent.nativeElement.innerHTML).save();
       this.isPrintingPdf = false;
-    }, 1000);
+    }, 500);
   }
 }

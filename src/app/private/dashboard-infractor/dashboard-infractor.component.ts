@@ -17,6 +17,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import * as html2pdf from 'html2pdf.js'
 import { Clipboard } from '@angular/cdk/clipboard';
+import { SpinnerService } from 'src/app/shared/services/spinner.service';
 
 export interface infraccionGrid{
   date:string;
@@ -49,7 +50,8 @@ export class DashboardInfractorComponent implements OnInit {
     private asistenciaSvc:AsistenciaService,
     private salaSvc:SalaService,
     private snackBar:MatSnackBar,
-    private clipboard:Clipboard 
+    private clipboard:Clipboard,
+    private spinnerService:SpinnerService
   ) { 
 
   }
@@ -145,12 +147,19 @@ export class DashboardInfractorComponent implements OnInit {
     };
 
     this.isPrintingPdf = true;
+    try {
+      this.spinnerService.show();
+      setTimeout(async () => 
+      {
+        await html2pdf().set(opt).from(this.infractorContent.nativeElement.innerHTML).save();
+        this.isPrintingPdf = false;
+        this.spinnerService.hide();
+      }, 500);
+    } catch (error) {
+      this.spinnerService.hide();
+      this.snackBar.open("Ocurrion un error descargando el pdf.")
+    }
 
-    setTimeout(async () => 
-    {
-      await html2pdf().set(opt).from(this.infractorContent.nativeElement.innerHTML).save();
-      this.isPrintingPdf = false;
-    }, 500);
   }
 
   copyClipBoard(){

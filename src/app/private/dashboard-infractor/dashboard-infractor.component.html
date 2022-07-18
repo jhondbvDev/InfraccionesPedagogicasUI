@@ -117,7 +117,9 @@
       </button>
       <div class="buttonGroup">
         <button mat-raised-button color="secondary" class="full" routerLink="/infractor/login">SALIR</button>
-        <button mat-stroked-button color="warn" class="full" (click)="printPdf()">DESCARGAR PDF</button>
+        <button mat-stroked-button color="warn" class="full" (click)="printPdf()">PDF 
+          <mat-icon>download</mat-icon>
+        </button>
       </div>
     </mat-card-content>
   </mat-card>
@@ -137,7 +139,7 @@
         </div>
         <div class="container-col">
           <label><span class="bold">Hora:</span> {{selectedSala?.fecha|date:'h:mm a'}}</label>
-          <label><span class="bold">Link curso:</span> {{selectedSala?.link}}</label>
+          <a href="{{selectedSala?.link}}" target="_blank" title="Reunion" rel="nofollow">Link reunion</a>
         </div>
       </div>
     </mat-card-content>

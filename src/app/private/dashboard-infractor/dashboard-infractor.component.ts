@@ -86,7 +86,7 @@ export class DashboardInfractorComponent implements OnInit {
       next: (data: IInfraccion[]) => {
         this.infracciones = data;
         let dataGrid = this.infracciones.map(function(obj){
-          return  {date:obj.fecha.toString() ,concept:'Infraccion pedagogica'} 
+          return  {date:obj.fecha.toString() ,concept:obj.numeroInfraccion} 
         });
         this.dataSource= new MatTableDataSource<infraccionGrid>(dataGrid);
       },

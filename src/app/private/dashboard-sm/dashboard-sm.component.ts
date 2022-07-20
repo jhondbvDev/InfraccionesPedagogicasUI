@@ -31,7 +31,7 @@ export interface SalaGrid {
 export class DashboardSmComponent implements OnInit, AfterViewInit {
 
   @ViewChild("salaPaginator") salaPaginator! : MatPaginator;
-  totalRows : number = 15;
+  totalRows : number = 0;
   currentPage : number = 0;
   pageSize : number = 5;
   pageSizeOptions : number[] = [5,10,25,50];

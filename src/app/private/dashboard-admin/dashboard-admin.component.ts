@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'; 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
@@ -10,6 +10,7 @@ import { IUserInfo } from 'src/app/_models/user.interface';
 import { SalaService } from '../http/sala.service';
 import { UsuarioService } from '../http/usuario.service';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 export interface Sala {
   infNumber: string;
@@ -42,11 +43,18 @@ export interface UsuarioGrid{
 })
 export class DashboardAdminComponent implements OnInit {
 
+  pageSizeOptions : number[] = [5,10,25,50];
+
+  @ViewChild("salaPaginator") salaPaginator! : MatPaginator;
+  totalSalaRows : number = 0;
+  currentPageSalas : number = 0;
+  pageSizeSalas : number = 5;
+ 
   salas! : ISala[];
   usuarios! : IUserInfo[];
   displayedColumns: string[] = ['teacher', 'link', 'slots','date', 'hour', 'attendanceAction'];
   displayedColumns2: string[] = ['name', 'email', 'role', 'deleteAction'];
-  dataSource! :  MatTableDataSource<SalaGrid>;
+  dataSource :  MatTableDataSource<SalaGrid> = new MatTableDataSource;
   dataSource2! :  MatTableDataSource<UsuarioGrid>;
 
   constructor(
@@ -60,7 +68,7 @@ export class DashboardAdminComponent implements OnInit {
     }
 
   ngOnInit() {
-    this.loadSalas();
+    this.setupSalasInfo();
     this.loadUsers();
   }
 
@@ -77,8 +85,14 @@ export class DashboardAdminComponent implements OnInit {
     this.matDialog.open(AttendanceCheckingDialogComponent, dialogConfig)
   }
 
+  pageChangedSalas(event: PageEvent) {
+    this.pageSizeSalas = event.pageSize;
+    this.currentPageSalas = event.pageIndex;
+    this.setupSalasInfo();
+  }
+
   loadSalas(){
-    this.salaService.getSalas().subscribe(
+    this.salaService.getSalasWithPagination(this.currentPageSalas + 1, this.pageSizeSalas).subscribe(
       data => {
         this.salas = data;
         let dataGrid : SalaGrid[] = this.salas.map(function(sala){
@@ -92,13 +106,35 @@ export class DashboardAdminComponent implements OnInit {
             slots: sala.cupo,
             fecha:sala.fecha} 
         });
-        this.dataSource= new MatTableDataSource<SalaGrid>(dataGrid);
+        this.dataSource.data = dataGrid;
+        setTimeout(()=> 
+        {
+          this.salaPaginator.pageIndex = this.currentPageSalas;
+          this.salaPaginator.length = this.totalSalaRows;
+        });
       },
       errorContext => {
         console.log(errorContext.error);
       }
     )
   }
+
+  countSalas(){
+    this.salaService.getSalasCount().subscribe(
+      data => {
+        this.totalSalaRows = data;
+      },
+      errorContext => {
+        this.snackBar.open(errorContext.error);
+      }
+    );
+  }
+
+  setupSalasInfo(){
+    setTimeout(() => this.countSalas());
+    this.loadSalas();
+  }
+
 
   loadUsers(){
     let userId = this.storageService.getUser().id;

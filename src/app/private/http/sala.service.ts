@@ -15,6 +15,14 @@ export class SalaService {
     return this.http.get<ISala[]>(`${environment.API_URL}api/sala/deep`)
   }
 
+  getSalasWithPagination(currentPage: number, pageSize: number):Observable<any>{
+    return this.http.get<ISala[]>(`${environment.API_URL}api/sala/deep/pagination?PageNumber=${currentPage}&PageSize=${pageSize}`)
+  }
+
+  getSalasCount():Observable<any>{
+    return this.http.get<number>(`${environment.API_URL}api/sala/deep/count`)
+  }
+
   getSalasForUser(userId : string, currentPage: number, pageSize: number):Observable<any>{
     return this.http.get<ISala[]>(`${environment.API_URL}api/sala/deep/user/${userId}?PageNumber=${currentPage}&PageSize=${pageSize}`)
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'; 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
@@ -41,7 +41,7 @@ export interface UsuarioGrid{
   templateUrl: './dashboard-admin.component.html',
   styleUrls: ['./dashboard-admin.component.scss']
 })
-export class DashboardAdminComponent implements OnInit {
+export class DashboardAdminComponent implements OnInit, AfterViewInit {
 
   pageSizeOptions : number[] = [5,10,25,50];
 
@@ -49,13 +49,18 @@ export class DashboardAdminComponent implements OnInit {
   totalSalaRows : number = 0;
   currentPageSalas : number = 0;
   pageSizeSalas : number = 5;
+
+  @ViewChild("userPaginator") userPaginator! : MatPaginator;
+  totalUserRows : number = 0;
+  currentPageUsers : number = 0;
+  pageSizeUsers : number = 5;
  
   salas! : ISala[];
   usuarios! : IUserInfo[];
   displayedColumns: string[] = ['teacher', 'link', 'slots','date', 'hour', 'attendanceAction'];
   displayedColumns2: string[] = ['name', 'email', 'role', 'deleteAction'];
   dataSource :  MatTableDataSource<SalaGrid> = new MatTableDataSource;
-  dataSource2! :  MatTableDataSource<UsuarioGrid>;
+  dataSource2 :  MatTableDataSource<UsuarioGrid> = new MatTableDataSource;
 
   constructor(
     private matDialog: MatDialog, 
@@ -67,9 +72,15 @@ export class DashboardAdminComponent implements OnInit {
     {
     }
 
+  
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.salaPaginator;
+    this.dataSource2.paginator = this.userPaginator;
+  }
+
   ngOnInit() {
     this.setupSalasInfo();
-    this.loadUsers();
+    this.setupUsersInfo();
   }
 
   checkAttendance(sala : ISala) {
@@ -135,20 +146,48 @@ export class DashboardAdminComponent implements OnInit {
     this.loadSalas();
   }
 
+  pageChangedUsers(event: PageEvent) {
+    this.pageSizeUsers = event.pageSize;
+    this.currentPageUsers = event.pageIndex;
+    this.setupUsersInfo();
+  }
 
   loadUsers(){
     let userId = this.storageService.getUser().id;
 
-    this.usuarioService.getUsers(userId).subscribe({
+    this.usuarioService.getUsers(userId, this.currentPageUsers + 1, this.pageSizeUsers).subscribe({
       next: (data: IUserInfo[]) => {
         this.usuarios = data;
         let dataGrid : UsuarioGrid[] = this.usuarios.map(function(user){
           return  {id: user.id, name:user.name, email : user.email, role: user.rol} 
         });
-        this.dataSource2= new MatTableDataSource<UsuarioGrid>(dataGrid);
+        this.dataSource2.data = dataGrid;
+        setTimeout(()=> 
+        {
+          this.userPaginator.pageIndex = this.currentPageUsers;
+          this.userPaginator.length = this.totalUserRows;
+        });
       },
       error: (err: any) => { }
     });
+  }
+
+  countUsers(){
+    let userId = this.storageService.getUser().id;
+
+    this.usuarioService.getUsersCount(userId).subscribe(
+      data => {
+        this.totalUserRows = data;
+      },
+      errorContext => {
+        this.snackBar.open(errorContext.error);
+      }
+    );
+  }
+
+  setupUsersInfo(){
+    setTimeout(() => this.countUsers());
+    this.loadUsers();
   }
 
   addUser() {
@@ -161,7 +200,7 @@ export class DashboardAdminComponent implements OnInit {
     dialogRef.afterClosed().subscribe(created => {
       if(created)
       {
-        this.loadUsers();
+        this.setupUsersInfo();
       }
     });
   }
@@ -170,7 +209,7 @@ export class DashboardAdminComponent implements OnInit {
     this.usuarioService.deleteUser(userId).subscribe(
       data =>{
         this.snackBar.open(data);
-        this.loadUsers();
+        this.setupUsersInfo();
       },
       errorContext =>{
         this.snackBar.open(errorContext.error);

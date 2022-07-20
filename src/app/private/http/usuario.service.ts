@@ -15,8 +15,12 @@ export class UsuarioService {
     return this.http.post(`${environment.API_URL}api/Usuario`, usuario, { responseType: 'text' });
   }
 
-  getUsers(userId : string):Observable<any>{
-    return this.http.get<IUserInfo[]>(`${environment.API_URL}api/Usuario/${userId}`)
+  getUsers(userId : string, currentPage: number, pageSize: number):Observable<any>{
+    return this.http.get<IUserInfo[]>(`${environment.API_URL}api/Usuario/${userId}?PageNumber=${currentPage}&PageSize=${pageSize}`)
+  }
+
+  getUsersCount(userId : string):Observable<any>{
+    return this.http.get<IUserInfo[]>(`${environment.API_URL}api/Usuario/Count/${userId}`)
   }
 
   deleteUser(userId : string): Observable<any>{

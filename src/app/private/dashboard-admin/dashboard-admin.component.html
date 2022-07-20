@@ -107,6 +107,10 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
           </table>
+
+          <mat-paginator #userPaginator [length]="totalUserRows" [pageIndex]="currentPageUsers" [pageSize]="pageSizeUsers"
+            [pageSizeOptions]="pageSizeOptions" (page)="pageChangedUsers($event)" aria-label="Seleccione la pagina">
+          </mat-paginator>
           <div class="spacing vertical-3"></div>
         </mat-card-content>
       </mat-card>

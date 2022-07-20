@@ -15,8 +15,8 @@ export class SalaService {
     return this.http.get<ISala[]>(`${environment.API_URL}api/sala/deep`)
   }
 
-  getSalasForUser(userId : string):Observable<any>{
-    return this.http.get<ISala[]>(`${environment.API_URL}api/sala/deep/user/${userId}`)
+  getSalasForUser(userId : string, currentPage: number, pageSize: number):Observable<any>{
+    return this.http.get<ISala[]>(`${environment.API_URL}api/sala/deep/user/${userId}?PageNumber=${currentPage}&PageSize=${pageSize}`)
   }
 
   getSalaById(id:number):Observable<any>{
@@ -25,6 +25,10 @@ export class SalaService {
 
   getSalaByIdDeep(id:number):Observable<any>{
     return this.http.get<ISala>(`${environment.API_URL}api/sala/deep/${id}`)
+  }
+
+  getSalasCountForUser(userId : string):Observable<any>{
+    return this.http.get<number>(`${environment.API_URL}api/sala/deep/user/count/${userId}`)
   }
 
   createSala(sala : INewSala):Observable<any>{

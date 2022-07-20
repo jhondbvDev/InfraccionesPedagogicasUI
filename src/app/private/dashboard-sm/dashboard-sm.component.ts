@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
@@ -10,6 +10,7 @@ import { AsistenciaService } from '../http/asistencia.service';
 import { SalaService } from '../http/sala.service';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { IResponse } from 'src/app/_models/response.interface';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 export interface SalaGrid {
   id: number;
@@ -27,11 +28,17 @@ export interface SalaGrid {
   templateUrl: './dashboard-sm.component.html',
   styleUrls: ['./dashboard-sm.component.scss']
 })
-export class DashboardSmComponent implements OnInit {
+export class DashboardSmComponent implements OnInit, AfterViewInit {
+
+  @ViewChild("salaPaginator") salaPaginator! : MatPaginator;
+  totalRows : number = 15;
+  currentPage : number = 0;
+  pageSize : number = 5;
+  pageSizeOptions : number[] = [5,10,25,50];
 
   userId: string;
   salas!: ISala[];
-  dataSource!: MatTableDataSource<SalaGrid>;
+  dataSource : MatTableDataSource<SalaGrid> = new MatTableDataSource();
   displayedColumns: string[] = ['teacher', 'link', 'slots', 'totalslots', 'date', 'hour', 'attendanceAction', 'editAction', 'deleteAction'];
 
   constructor(
@@ -45,7 +52,12 @@ export class DashboardSmComponent implements OnInit {
     this.userId = this.storageService.getUser().id;
   }
 
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.salaPaginator;
+  }
+
   ngOnInit() {
+    setTimeout(() => this.countSalas());
     this.loadSalas();
   }
 
@@ -62,8 +74,14 @@ export class DashboardSmComponent implements OnInit {
     this.matDialog.open(AttendanceCheckingDialogComponent, dialogConfig)
   }
 
+  pageChanged(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+    this.setupInfo();
+  }
+
   loadSalas() {
-    this.salaService.getSalasForUser(this.userId).subscribe(
+    this.salaService.getSalasForUser(this.userId, this.currentPage + 1, this.pageSize).subscribe(
       data => {
         this.salas = data;
         let dataGrid: SalaGrid[] = this.salas.map(function (sala) {
@@ -80,12 +98,29 @@ export class DashboardSmComponent implements OnInit {
             fecha: fixedDate
           }
         });
-        this.dataSource = new MatTableDataSource<SalaGrid>(dataGrid);
+        this.dataSource.data = dataGrid;
+        setTimeout(()=> 
+        {
+          this.salaPaginator.pageIndex = this.currentPage;
+          this.salaPaginator.length = this.totalRows;
+        });
+        
       },
       errorContext => {
         this.snackBar.open(errorContext.error);
       }
     )
+  }
+
+  countSalas(){
+    this.salaService.getSalasCountForUser(this.userId).subscribe(
+      data => {
+        this.totalRows = data;
+      },
+      errorContext => {
+        this.snackBar.open(errorContext.error);
+      }
+    );
   }
 
   addRoom() {
@@ -100,7 +135,7 @@ export class DashboardSmComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.loadSalas();
+        this.setupInfo();
       }
     })
   }
@@ -129,7 +164,7 @@ export class DashboardSmComponent implements OnInit {
 
           dialogRef.afterClosed().subscribe(result => {
             if (result) {
-              this.loadSalas();
+              this.setupInfo();
             }
           })
         }
@@ -149,7 +184,7 @@ export class DashboardSmComponent implements OnInit {
       next: (response: IResponse) => {
         if (response.status == 0) {
           this.snackBar.open("Sala eliminada con exito");
-          this.loadSalas();
+          this.setupInfo();
         }
         else {
           this.snackBar.open(response.errorMessage);
@@ -193,5 +228,10 @@ export class DashboardSmComponent implements OnInit {
       //   }
       //   );
     })
+  }
+
+  setupInfo(){
+    setTimeout(() => this.countSalas());
+    this.loadSalas();
   }
 }

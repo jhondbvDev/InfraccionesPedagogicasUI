@@ -21,9 +21,7 @@ import { RoomCreationDialogComponent } from './shared/dialogs/room-creation-dial
 import { UserCreationDialogComponent } from './shared/dialogs/user-creation-dialog/user-creation-dialog.component';
 import { MeetingCalendarComponent } from './shared/components/meeting-calendar/meeting-calendar.component';
 import { SpinnerModule } from './shared/components/spinner/spinner.module';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { SpinnerInterceptor, spinnerInterceptorProvider } from './shared/interceptors/spinner.interceptor';
-import { DataDatosInfractorService } from './private/services/data-datos-infractor.service';
+import { spinnerInterceptorProvider } from './shared/interceptors/spinner.interceptor';
 import { DatePipe } from '@angular/common';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { errorInterceptorProvider } from './shared/interceptors/error.interceptor';

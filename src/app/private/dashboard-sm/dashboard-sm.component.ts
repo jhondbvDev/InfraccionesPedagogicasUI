@@ -181,14 +181,9 @@ export class DashboardSmComponent implements OnInit, AfterViewInit {
 
   deleteRoom(salaId: number) {
     this.salaService.deleteSala(salaId).subscribe({
-      next: (response: IResponse) => {
-        if (response.status == 0) {
-          this.snackBar.open("Sala eliminada con exito");
-          this.setupInfo();
-        }
-        else {
-          this.snackBar.open(response.errorMessage);
-        }
+      next: () => {
+        this.snackBar.open("Sala eliminada con exito");
+        this.setupInfo();
       },
       error: (err: any) => {
         if(err.error)

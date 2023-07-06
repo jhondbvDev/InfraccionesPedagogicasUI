@@ -71,7 +71,7 @@ export class LoginInfractorComponent implements OnInit {
       error:(err:any)=>{
         this.router.navigateByUrl("infractor/login");
         this.isLoginFailed = true;
-        this.errorMessage = err.error;
+        this.errorMessage = err.error.errors[0].msg;
       }
     });
     

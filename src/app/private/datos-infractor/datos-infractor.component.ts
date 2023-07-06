@@ -6,6 +6,7 @@ import { IDatosInfractor } from 'src/app/_models/datosinfractor.interface';
 import { IInfractor } from 'src/app/_models/infractor.interface';
 import { DatosInfractorService } from '../http/datos-infractor.service';
 import { DataDatosInfractorService } from '../services/data-datos-infractor.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-datos-infractor',
@@ -29,7 +30,8 @@ export class DatosInfractorComponent implements OnInit {
     private router: Router,
     private datosInfractorSvc: DatosInfractorService,
     private authService: AuthService,
-    private dataInfractorService: DataDatosInfractorService) {
+    private dataInfractorService: DataDatosInfractorService,
+    private snackBar : MatSnackBar) {
 
   }
 
@@ -55,6 +57,7 @@ export class DatosInfractorComponent implements OnInit {
         else {
           this.isEditMode=false;
           //mostrar mensaje por favor ingrese sus datos
+          this.snackBar.open('Por favor ingrese sus datos.');
         }
 
       },

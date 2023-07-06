@@ -34,10 +34,10 @@ export class AuthService {
   setUserInfo(): void {
     let decodedJWT = this.getClaims();
     let userInfo = {
-      id: decodedJWT.UserId,
-      name: decodedJWT.name,
-      email: decodedJWT.email,
-      rol: decodedJWT.role,
+      id: decodedJWT.user.id,
+      name: decodedJWT.user.name,
+      email: decodedJWT.user.email,
+      rol: decodedJWT.user.rol,
       type:"internal"
     }
     this.StorageService.saveUser(userInfo);

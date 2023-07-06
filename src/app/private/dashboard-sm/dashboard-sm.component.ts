@@ -87,10 +87,13 @@ export class DashboardSmComponent implements OnInit, AfterViewInit {
         let dataGrid: SalaGrid[] = this.salas.map(function (sala) {
           var fixedDate = new Date(sala.fecha);
 
+          let hours = ("0" + fixedDate.getUTCHours()).slice(-2);
+          let minutes = ("0" + fixedDate.getUTCMinutes()).slice(-2);
+          
           return {
             id: sala.id,
             date: fixedDate.toLocaleDateString(),
-            hour: fixedDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            hour: `${hours}:${minutes}`,
             teacher: sala.nombreUsuario,
             link: sala.link,
             slots: sala.cupo,

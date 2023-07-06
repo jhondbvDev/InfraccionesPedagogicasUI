@@ -59,7 +59,7 @@ export class LoginFuncionarioComponent implements OnInit {
           this.errorMessage = "Usuario o contraseña invalidos";
         }
         else{
-          this.errorMessage=err.error;
+          this.errorMessage = err.error.errors[0].msg;
         }
        
       }

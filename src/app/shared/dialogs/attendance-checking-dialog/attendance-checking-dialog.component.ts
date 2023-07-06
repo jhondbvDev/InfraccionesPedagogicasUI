@@ -83,7 +83,8 @@ export class AttendanceCheckingDialogComponent implements OnInit {
           next: (result: any) => {
 
             let file = new Blob([result], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-            let fileName = `asistencias-${date?.toLocaleString()}`;
+            let fileName = `Asistencias-${date?.toLocaleString().substring(0,10)}.xlsx`;
+
             saveAs(file, fileName);
 
           },

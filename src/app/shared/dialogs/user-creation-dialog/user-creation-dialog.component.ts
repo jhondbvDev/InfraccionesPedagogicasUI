@@ -39,8 +39,10 @@ export class UserCreationDialogComponent implements OnInit {
 
         this.usuarioService.registerUser(newUserData).subscribe(
           data =>{
-            this.snackBar.open(data);
-            this.close(true);
+            if(data !== null){
+              this.snackBar.open("Usuario creado con exito.");
+              this.close(true);
+            }
           },
           errorContext =>{
             this.snackBar.open(errorContext.error);
@@ -48,7 +50,7 @@ export class UserCreationDialogComponent implements OnInit {
         )
       }
       else{
-        console.log("error password")
+        this.snackBar.open("Las contraseña y confirmacion de contraseña deben ser iguales.");
       }
     }
     else{

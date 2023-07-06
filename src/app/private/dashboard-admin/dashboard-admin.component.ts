@@ -208,8 +208,12 @@ export class DashboardAdminComponent implements OnInit, AfterViewInit {
   deleteUser(userId : string) {
     this.usuarioService.deleteUser(userId).subscribe(
       data =>{
-        this.snackBar.open(data);
-        this.setupUsersInfo();
+        
+        if(data !== null)
+        {
+          this.snackBar.open("El usuario ha sido eliminado con exito.");
+          this.setupUsersInfo();
+        }
       },
       errorContext =>{
         this.snackBar.open(errorContext.error);

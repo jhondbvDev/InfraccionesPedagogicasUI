@@ -45,7 +45,22 @@ export class UserCreationDialogComponent implements OnInit {
             }
           },
           errorContext =>{
-            this.snackBar.open(errorContext.error);
+            let error_obj = JSON.parse(errorContext.error);
+
+            if(error_obj.errors !== null && error_obj.errors !== undefined)
+            {
+              let errors = "";
+
+              error_obj.errors.forEach(error => {
+                errors += error.msg + "\n";
+              });
+
+              this.snackBar.open(errors);
+            }
+            else
+            {
+              this.snackBar.open(errorContext.error);
+            }
           }
         )
       }

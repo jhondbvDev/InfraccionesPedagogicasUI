@@ -57,7 +57,7 @@ export class DatosInfractorComponent implements OnInit {
         else {
           this.isEditMode=false;
           //mostrar mensaje por favor ingrese sus datos
-          this.snackBar.open('Por favor ingrese sus datos.');
+          this.snackBar.open('Por favor ingrese sus datos');
         }
 
       },
@@ -84,7 +84,7 @@ export class DatosInfractorComponent implements OnInit {
           this.router.navigateByUrl("infractor/dashboard");
          },
         error: (err: any) => {
-          console.log(err);
+          this.snackBar.open(err.error);
         }
       })
     }
@@ -95,7 +95,7 @@ export class DatosInfractorComponent implements OnInit {
           this.router.navigateByUrl("infractor/dashboard"); 
         },
         error: (err: any) => {
-          console.log(err);
+          this.snackBar.open(err.error);
         }
       })
     }

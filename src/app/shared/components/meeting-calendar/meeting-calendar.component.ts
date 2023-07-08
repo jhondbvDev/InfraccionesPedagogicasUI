@@ -22,7 +22,6 @@ export class MeetingCalendarComponent implements OnInit {
   minDate!: Date;
   dateFilter = (date: Date): boolean => { return true; }
 
-  // listDates: Array<Date>;
   currentListDate: ({ isActive: boolean, sala: ISala } | undefined)[] = [];
   defaultListSalas: { isActive: boolean, sala: ISala }[];
   listSalas!: ISala[];
@@ -100,7 +99,6 @@ export class MeetingCalendarComponent implements OnInit {
       next: (data: ISala[]) => {
         this.listSalas = data;
         this.dateFilter = (date: Date): boolean => {
-          // return this.listSalas.some(x => x.fecha.toString().slice(0, 10) === date.toISOString().slice(0, 10));
           return this.listSalas.some(x => new Date(x.fecha).toLocaleDateString() === date.toLocaleDateString());
         }
       },

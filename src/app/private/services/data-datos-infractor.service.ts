@@ -3,11 +3,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { IDatosInfractor } from 'src/app/_models/datosinfractor.interface';
 import { IInfractor } from 'src/app/_models/infractor.interface';
 
-// const initInfractor: IInfractor = {
-//   apellido: '',
-//   id: '',
-//   nombre: ''
-// }
 
 @Injectable({
   providedIn: 'root'
@@ -33,17 +28,6 @@ export class DataDatosInfractorService {
   setDatosInfractor(datos: IDatosInfractor): void {
     this.currentDatosInfractor = datos;
   }
-
-  //Observable
-  // private infractor$ = new BehaviorSubject<IInfractor>(initInfractor);
-
-  // get getInfractor(): Observable<IInfractor> {
-  //   return this.infractor$.asObservable();
-  // }
-
-  // setInfractor(infractor:IInfractor):void{
-  //   this.infractor$.next(infractor);
-  //  }
 
 
 }

@@ -38,7 +38,9 @@ export class DatosInfractorComponent implements OnInit {
   ngOnInit() {
     this.infractor = this.dataInfractorService.infractor;
     if (this.infractor === null || this.infractor === undefined) {
-      console.log("Internal error ");
+      this.snackBar.open('Error interno, favor informe al administrador del sistema.', undefined, {
+        panelClass: ['failure']
+      });
       this.cancel();
       return;
     }
@@ -56,13 +58,17 @@ export class DatosInfractorComponent implements OnInit {
         }
         else {
           this.isEditMode=false;
-          //mostrar mensaje por favor ingrese sus datos
-          this.snackBar.open('Por favor ingrese sus datos');
+
+          this.snackBar.open('Por favor ingrese sus datos.', undefined, {
+            panelClass: ['failure']
+          });
         }
 
       },
       error: (err: any) => {
-        console.log(err.errorMessage);
+        this.snackBar.open(err.errorMessage, undefined, {
+          panelClass: ['failure']
+        });
       }
     });
 
@@ -70,9 +76,10 @@ export class DatosInfractorComponent implements OnInit {
 
   confirmData() {
     if(!this.formDatosInfractor.valid){
-      console.log("invalid");
+      this.snackBar.open('Por favor, complete todos los campos antes de continuar.', undefined, {
+        panelClass: ['failure']
+      });
       return;
-      //TODO: mensaje , debe completar los campos 
     }
     let datosInfractor = this.formDatosInfractor.value as IDatosInfractor;
     datosInfractor.infractorId = this.infractor.id;
@@ -84,7 +91,9 @@ export class DatosInfractorComponent implements OnInit {
           this.router.navigateByUrl("infractor/dashboard");
          },
         error: (err: any) => {
-          this.snackBar.open(err.error);
+          this.snackBar.open(err.error, undefined, {
+            panelClass: ['failure']
+          });
         }
       })
     }
@@ -95,7 +104,9 @@ export class DatosInfractorComponent implements OnInit {
           this.router.navigateByUrl("infractor/dashboard"); 
         },
         error: (err: any) => {
-          this.snackBar.open(err.error);
+          this.snackBar.open(err.error, undefined, {
+            panelClass: ['failure']
+          });
         }
       })
     }

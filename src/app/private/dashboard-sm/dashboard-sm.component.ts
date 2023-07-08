@@ -107,7 +107,9 @@ export class DashboardSmComponent implements OnInit, AfterViewInit {
         
       },
       errorContext => {
-        this.snackBar.open(errorContext.error);
+        this.snackBar.open(errorContext.error, undefined, {
+          panelClass: ['failure']
+        });
       }
     )
   }
@@ -118,7 +120,9 @@ export class DashboardSmComponent implements OnInit, AfterViewInit {
         this.totalRows = data;
       },
       errorContext => {
-        this.snackBar.open(errorContext.error);
+        this.snackBar.open(errorContext.error, undefined, {
+          panelClass: ['failure']
+        });
       }
     );
   }
@@ -144,7 +148,9 @@ export class DashboardSmComponent implements OnInit, AfterViewInit {
     this.asistenciaService.hasRegisteredInfractores(roomData.id).subscribe(
       data => {
         if (data == true) {
-          this.snackBar.open("Esta sala no se puede editar ya que contiene infractores registrados");
+          this.snackBar.open("Esta sala no se puede editar ya que contiene infractores registrados", undefined, {
+            panelClass: ['warning']
+          });
         }
         else {
           let dialogConfig = new MatDialogConfig();
@@ -170,7 +176,9 @@ export class DashboardSmComponent implements OnInit, AfterViewInit {
         }
       },
       errorContext => {
-        this.snackBar.open(errorContext.error);
+        this.snackBar.open(errorContext.error, undefined, {
+          panelClass: ['failure']
+        });
       }
     );
   }
@@ -182,17 +190,23 @@ export class DashboardSmComponent implements OnInit, AfterViewInit {
   deleteRoom(salaId: number) {
     this.salaService.deleteSala(salaId).subscribe({
       next: () => {
-        this.snackBar.open("Sala eliminada con exito");
+        this.snackBar.open("Sala eliminada con exito", undefined, {
+          panelClass: ['success']
+        });
+        
         this.setupInfo();
       },
       error: (err: any) => {
         if(err.error)
         {
-          this.snackBar.open(err.error.errorMessage);
-
+          this.snackBar.open(err.error.errorMessage, undefined, {
+            panelClass: ['failure']
+          });
         }
         else{
-          this.snackBar.open("Ocurrio un error, por favor comuniquese con el administrador o  intente mas tarde.");
+          this.snackBar.open("Ocurrio un error, por favor comuniquese con el administrador o  intente mas tarde.", undefined, {
+            panelClass: ['failure']
+          });
         }
       }
 

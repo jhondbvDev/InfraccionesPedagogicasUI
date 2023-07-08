@@ -106,6 +106,21 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   color:#155724;
 }
 
+.success{
+  background: #4BB543;
+  color: white;
+}
+
+.failure{
+  background: #FC100D;
+  color: white;
+}
+
+.warning{
+  background: #FF5F15;
+  color: white;
+}
+
 .show{
   display: block !important;
 }

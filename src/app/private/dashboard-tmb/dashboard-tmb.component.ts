@@ -32,15 +32,21 @@ export class DashboardTmbComponent implements OnInit {
     this.fileUploadService.processInfracciones(this.selectedFile!).subscribe({
       next:(data:boolean)=>{
          if(data == true){
-          this.snackBar.open("Archivo cargado con exito");
+          this.snackBar.open("Archivo cargado con exito", undefined, {
+            panelClass: ['success']
+          });
           this.clearSelectedFile();
         }
         else{
-          this.snackBar.open("Error durante la carga del archivo, intente nuevamente");
+          this.snackBar.open("Error durante la carga del archivo, intente nuevamente.", undefined, {
+            panelClass: ['failure']
+          });
         }
       },
       error:(err:any)=>{
-        this.snackBar.open(err.error);
+        this.snackBar.open(err.error, undefined, {
+          panelClass: ['failure']
+        });
       }
     });
   }

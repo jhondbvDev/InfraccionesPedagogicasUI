@@ -68,10 +68,15 @@ export class RoomCreationDialogComponent implements OnInit {
 
           this.salaService.createSala(newSala).subscribe({
             error: (err) => {
-              this.snackBar.open(err.error);
+              this.snackBar.open(err.error, undefined, {
+                panelClass: ['failure']
+              });
             },
             next: (res) => {
-              this.snackBar.open('Sala creada con exito');
+              this.snackBar.open('Sala creada con exito', undefined, {
+                panelClass: ['success']
+              });
+
               this.close(true);
             }
           })
@@ -86,21 +91,30 @@ export class RoomCreationDialogComponent implements OnInit {
 
           this.salaService.updateSala(updatedSala).subscribe(
             data => {
-              this.snackBar.open('Sala actualizada con exito');
+              this.snackBar.open('Sala actualizada con exito', undefined, {
+                panelClass: ['success']
+              });
+
               this.close(true);
             },
             errorContext => {
-              this.snackBar.open(errorContext.error);
+              this.snackBar.open(errorContext.error, undefined, {
+                panelClass: ['failure']
+              });
             }
           )
         }
       }
       else {
-        console.log("error calendario")
+        this.snackBar.open("Se ha presentado un error con el calendario, por favor contacte al administrador del sistema.", undefined, {
+          panelClass: ['failure']
+        });
       }
     }
     else {
-      console.log("error")
+      this.snackBar.open("Error, debe llenar todos los datos para poder continuar.", undefined, {
+        panelClass: ['failure']
+      });
     }
   }
 }

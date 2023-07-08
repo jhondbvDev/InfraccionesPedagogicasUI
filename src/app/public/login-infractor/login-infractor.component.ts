@@ -74,7 +74,5 @@ export class LoginInfractorComponent implements OnInit {
         this.errorMessage = err.error.errors[0].msg;
       }
     });
-    
   }
-
 }

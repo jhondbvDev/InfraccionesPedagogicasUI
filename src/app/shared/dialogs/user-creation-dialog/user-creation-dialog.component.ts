@@ -40,7 +40,10 @@ export class UserCreationDialogComponent implements OnInit {
         this.usuarioService.registerUser(newUserData).subscribe(
           data =>{
             if(data !== null){
-              this.snackBar.open("Usuario creado con exito.");
+              this.snackBar.open("Usuario creado con exito.", undefined, {
+                panelClass: ['success']
+              });
+
               this.close(true);
             }
           },
@@ -55,21 +58,29 @@ export class UserCreationDialogComponent implements OnInit {
                 errors += error.msg + "\n";
               });
 
-              this.snackBar.open(errors);
+              this.snackBar.open(errors, undefined, {
+                panelClass: ['failure']
+              });
             }
             else
             {
-              this.snackBar.open(errorContext.error);
+              this.snackBar.open(errorContext.error, undefined, {
+                panelClass: ['failure']
+              });
             }
           }
         )
       }
       else{
-        this.snackBar.open("Las contraseña y confirmacion de contraseña deben ser iguales.");
+        this.snackBar.open("Las contraseña y confirmacion de contraseña deben ser iguales.", undefined, {
+          panelClass: ['failure']
+        });
       }
     }
     else{
-      console.log("error")
+      this.snackBar.open("Error, debe llenar todos los campos del formulario para continuar.", undefined, {
+        panelClass: ['failure']
+      });
     }
   }
 

@@ -129,7 +129,9 @@ export class DashboardAdminComponent implements OnInit, AfterViewInit {
         });
       },
       errorContext => {
-        console.log(errorContext.error);
+        this.snackBar.open(errorContext.error, undefined, {
+          panelClass: ['failure']
+        });
       }
     )
   }
@@ -140,7 +142,9 @@ export class DashboardAdminComponent implements OnInit, AfterViewInit {
         this.totalSalaRows = data;
       },
       errorContext => {
-        this.snackBar.open(errorContext.error);
+        this.snackBar.open(errorContext.error, undefined, {
+          panelClass: ['failure']
+        });
       }
     );
   }
@@ -184,7 +188,9 @@ export class DashboardAdminComponent implements OnInit, AfterViewInit {
         this.totalUserRows = data;
       },
       errorContext => {
-        this.snackBar.open(errorContext.error);
+        this.snackBar.open(errorContext.error, undefined, {
+          panelClass: ['failure']
+        });
       }
     );
   }
@@ -215,12 +221,16 @@ export class DashboardAdminComponent implements OnInit, AfterViewInit {
         
         if(data !== null)
         {
-          this.snackBar.open("El usuario ha sido eliminado con exito.");
+          this.snackBar.open("El usuario ha sido eliminado con exito.", undefined, {
+            panelClass: ['success']
+          });
           this.setupUsersInfo();
         }
       },
       errorContext =>{
-        this.snackBar.open(errorContext.error);
+        this.snackBar.open(errorContext.error, undefined, {
+          panelClass: ['failure']
+        });
       }
     )
   }

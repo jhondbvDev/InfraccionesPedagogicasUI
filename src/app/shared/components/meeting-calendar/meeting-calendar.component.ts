@@ -103,7 +103,9 @@ export class MeetingCalendarComponent implements OnInit {
         }
       },
       error: (err: any) => {
-        this.snackBar.open('Ocurrio un error consultando las salas , comuniquese con el administrador.')
+        this.snackBar.open('Ocurrio un error consultando las salas , comuniquese con el administrador.', undefined, {
+          panelClass: ['failure']
+        })
       }
     });
   }

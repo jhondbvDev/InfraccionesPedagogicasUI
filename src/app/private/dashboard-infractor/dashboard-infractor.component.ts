@@ -127,7 +127,9 @@ export class DashboardInfractorComponent implements OnInit {
             this.loadSala();
           },
           error:(err:any)=>{
-           this.snackBar.open('Ocurrio un error programando su curso , comuniquese con el administrador o intente mas tarde.');
+           this.snackBar.open('Ocurrio un error programando su curso , comuniquese con el administrador o intente mas tarde.', undefined, {
+            panelClass: ['failure']
+          });
           }
         });
       }
@@ -157,7 +159,9 @@ export class DashboardInfractorComponent implements OnInit {
       }, 500);
     } catch (error) {
       this.spinnerService.hide();
-      this.snackBar.open("Ocurrion un error descargando el pdf.")
+      this.snackBar.open("Ocurrion un error descargando el pdf.", undefined, {
+        panelClass: ['failure']
+      })
     }
 
   }

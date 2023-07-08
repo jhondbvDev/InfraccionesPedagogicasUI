@@ -50,7 +50,9 @@ export class AttendanceCheckingDialogComponent implements OnInit {
         this.dataSource = new MatTableDataSource<AsistenciaGrid>(dataGrid);
       },
       errorContext => {
-        console.log(errorContext.error);
+        this.snackBar.open(errorContext.error, undefined, {
+          panelClass: ['failure']
+        });
       }
     )
   }
@@ -65,7 +67,10 @@ export class AttendanceCheckingDialogComponent implements OnInit {
       data => {
       },
       errorContext => {
-        this.snackBar.open(errorContext.error);
+        this.snackBar.open(errorContext.error, undefined, {
+          panelClass: ['failure']
+        });
+
         this.close();
       }
     )
@@ -90,14 +95,17 @@ export class AttendanceCheckingDialogComponent implements OnInit {
           },
           error: (err: any) => {
 
-            this.snackBar.open("Ocurrio un error descargando el archivo.");
+            this.snackBar.open("Ocurrio un error descargando el archivo.", undefined, {
+              panelClass: ['failure']
+            });
           }
         }
       )
     }
     else {
-      this.snackBar.open("No es posible exportar a excel , no hay informacion");
+      this.snackBar.open("No es posible exportar a excel , no hay informacion", undefined, {
+        panelClass: ['failure']
+      });
     }
-
   }
 }

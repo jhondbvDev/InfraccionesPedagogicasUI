@@ -14,7 +14,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 export interface SalaGrid {
   id: number;
-  date: string;
+  date: Date;
   hour: string;
   link: string;
   slots: number;
@@ -86,14 +86,11 @@ export class DashboardSmComponent implements OnInit, AfterViewInit {
         this.salas = data;
         let dataGrid: SalaGrid[] = this.salas.map(function (sala) {
           var fixedDate = new Date(sala.fecha);
-
-          let hours = ("0" + fixedDate.getUTCHours()).slice(-2);
-          let minutes = ("0" + fixedDate.getUTCMinutes()).slice(-2);
           
           return {
             id: sala.id,
-            date: fixedDate.toLocaleDateString(),
-            hour: `${hours}:${minutes}`,
+            date: fixedDate,
+            hour : "1",
             teacher: sala.nombreUsuario,
             link: sala.link,
             slots: sala.cupo,

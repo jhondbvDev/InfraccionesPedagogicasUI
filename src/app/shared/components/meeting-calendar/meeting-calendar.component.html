@@ -12,7 +12,7 @@
   <div class="calendar-hour">
     <div *ngFor="let sala of currentListDate; let i=index">
       <div class="list-hour">
-        <button (click)="onSelectDate(sala)" [ngClass]="sala?.isActive ? 'button-active' : ''"><span>{{sala?.sala?.fecha|date:"HH:mm":"+0000"}}</span></button>
+        <button (click)="onSelectDate(sala)" [ngClass]="sala?.isActive ? 'button-active' : ''"><span>{{sala?.sala?.fecha|date:"HH:mm":"-0500"}}</span></button>
       </div>
     </div>
   </div>

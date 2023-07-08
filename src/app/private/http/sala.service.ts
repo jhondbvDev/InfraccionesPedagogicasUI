@@ -40,7 +40,8 @@ export class SalaService {
   }
 
   createSala(sala : INewSala):Observable<any>{
-    return this.http.post(`${environment.API_URL}api/sala`, sala, { responseType: 'text' })
+    const response =  this.http.post(`${environment.API_URL}api/sala`, sala)
+    return response;
   }
 
   updateSala(sala : IEditSala):Observable<any>{

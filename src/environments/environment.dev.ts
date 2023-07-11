@@ -1,5 +1,5 @@
 export const environment = {
     production: false,
-    API_URL:"https://cursosamonestacionapi.transitobello.com/"
+    API_URL:"http://locahost:3000/"
   };
   
